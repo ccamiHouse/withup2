@@ -1,0 +1,185 @@
+---
+description: WithUp 프로젝트의 데이터 구조 및 API 설계 가이드
+---
+
+# 데이터 구조 및 API 설계
+
+## 핵심 엔티티
+
+### 스터디 (Study)
+
+```javascript
+const study = {
+  id: "study_123",
+  title: "토익 스터디",
+  description: "토익 점수 향상을 위한 스터디입니다.",
+  category: "어학",
+  location: "강남구",
+  period: "2024-01-01 ~ 2024-03-31",
+  currentMembers: 3,
+  maxMembers: 6,
+  isOnline: false,
+  leader: {
+    id: "user_456",
+    name: "김리더",
+    profileImage: "/images/profile.jpg",
+  },
+  members: [
+    { id: "user_456", name: "김리더", role: "leader" },
+    { id: "user_789", name: "박멤버", role: "member" },
+  ],
+  createdAt: "2024-01-01T00:00:00Z",
+  status: "recruiting", // recruiting, confirmed, active, completed
+};
+```
+
+### 사용자 (User)
+
+```javascript
+const user = {
+  id: "user_456",
+  name: "김사용자",
+  email: "user@example.com",
+  profileImage: "/images/profile.jpg",
+  location: "강남구",
+  interests: ["어학", "프로그래밍", "디자인"],
+  studyHistory: [{ studyId: "study_123", role: "leader", status: "completed" }],
+  sideJobOffers: [{ id: "job_789", title: "영어 과외", status: "available" }],
+};
+```
+
+### 사이드잡 (SideJob)
+
+```javascript
+const sideJob = {
+  id: "job_789",
+  title: "영어 과외",
+  description: "토익 스터디 경험을 바탕으로 한 영어 과외",
+  type: "tutoring",
+  requirements: ["토익 900점 이상", "스터디 리더 경험"],
+  compensation: "시급 30,000원",
+  location: "강남구",
+  status: "available",
+  relatedStudyId: "study_123",
+};
+```
+
+## API 엔드포인트 설계
+
+### 스터디 관련
+
+```javascript
+// 스터디 목록 조회
+GET /api/studies
+Query params: ?category=어학&location=강남구&status=recruiting
+
+// 스터디 상세 조회
+GET /api/studies/:id
+
+// 스터디 생성
+POST /api/studies
+Body: { title, description, category, location, period, maxMembers }
+
+// 스터디 참여 신청
+POST /api/studies/:id/join
+
+// 스터디 상태 업데이트
+PATCH /api/studies/:id/status
+Body: { status: "confirmed" }
+```
+
+### 사용자 관련
+
+```javascript
+// 사용자 프로필 조회
+GET /api/users/:id
+
+// 사용자 프로필 업데이트
+PATCH /api/users/:id
+Body: { name, location, interests }
+
+// 사용자의 스터디 목록
+GET /api/users/:id/studies
+```
+
+### 알림 관련
+
+```javascript
+// 알림 설정
+POST /api/notifications/preferences
+Body: { categories, locations, maxDistance }
+
+// 알림 발송 (내부)
+POST /api/notifications/send
+Body: { userId, studyId, type: "new_study" }
+```
+
+## 상태 관리
+
+### 스터디 상태
+
+- `recruiting`: 모집 중
+- `confirmed`: 인원 확정, 활동 시작 준비
+- `active`: 활동 중
+- `completed`: 활동 완료
+- `cancelled`: 취소됨
+
+### 사용자 역할
+
+- `leader`: 스터디 리더 (멤버 관리, 일정 생성)
+- `secretary`: 서기 (회의록 작성, 기록 관리)
+- `member`: 일반 멤버 (출석 체크, 자료 열람)
+
+## 로컬 스토리지 활용
+
+```javascript
+// 사용자 선호도 저장
+localStorage.setItem(
+  "userPreferences",
+  JSON.stringify({
+    categories: ["어학", "프로그래밍"],
+    location: "강남구",
+    notificationEnabled: true,
+  })
+);
+
+// 임시 폼 데이터 저장
+sessionStorage.setItem("studyFormData", JSON.stringify(formData));
+```
+
+## 데이터 검증
+
+```javascript
+// 스터디 생성 시 필수 필드 검증
+const validateStudyData = (data) => {
+  const required = [
+    "title",
+    "description",
+    "category",
+    "location",
+    "period",
+    "maxMembers",
+  ];
+  return required.every((field) => data[field] && data[field].trim());
+};
+
+// 날짜 형식 검증
+const validateDateRange = (startDate, endDate) => {
+  return new Date(startDate) < new Date(endDate);
+};
+```
+
+## 에러 처리
+
+```javascript
+// API 응답 에러 처리
+const handleApiError = (error) => {
+  if (error.status === 404) {
+    return "요청한 데이터를 찾을 수 없습니다.";
+  }
+  if (error.status === 400) {
+    return "입력 정보를 확인해주세요.";
+  }
+  return "일시적인 오류가 발생했습니다.";
+};
+```

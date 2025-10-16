@@ -1,0 +1,153 @@
+---
+globs: *.js,*.css
+description: Tailwind CSS 스타일링 가이드 및 디자인 시스템
+---
+
+# WithUp 스타일링 가이드
+
+## Tailwind CSS 설정
+
+프로젝트의 Tailwind 설정은 [tailwind.config.js](mdc:tailwind.config.js)를 참조하세요.
+
+## 색상 팔레트
+
+```css
+/* Primary Colors (Blue 계열) */
+bg-blue-50, bg-blue-100, bg-blue-200, bg-blue-300
+bg-blue-400, bg-blue-500, bg-blue-600, bg-blue-700
+bg-blue-800, bg-blue-900
+
+/* 주요 사용 색상 */
+- Primary: blue-600 (메인 액션)
+- Primary Hover: blue-700
+- Primary Light: blue-100 (배경)
+- Success: green-100, green-800 (온라인 표시)
+- Text: gray-700 (일반 텍스트), gray-500 (보조 텍스트)
+- Background: white, gray-50
+```
+
+## 컴포넌트 스타일 패턴
+
+### 버튼
+
+```jsx
+// Primary 버튼
+<button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+  버튼 텍스트
+</button>
+
+// Secondary 버튼
+<button className="bg-gray-100 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-200 transition">
+  버튼 텍스트
+</button>
+```
+
+### 카드
+
+```jsx
+<div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow p-6">
+  {/* 카드 내용 */}
+</div>
+```
+
+### 배지/태그
+
+```jsx
+<span className="bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full">
+  카테고리
+</span>
+```
+
+### 폼 요소
+
+```jsx
+<input
+  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+  placeholder="입력하세요"
+/>
+```
+
+## 레이아웃 패턴
+
+### 컨테이너
+
+```jsx
+<div className="container mx-auto px-4">{/* 콘텐츠 */}</div>
+```
+
+### 그리드
+
+```jsx
+{
+  /* 카드 그리드 */
+}
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {/* 카드들 */}
+</div>;
+
+{
+  /* 플렉스 레이아웃 */
+}
+<div className="flex flex-col md:flex-row gap-4">{/* 요소들 */}</div>;
+```
+
+### 간격
+
+- **섹션 간격**: `py-8`, `py-12`
+- **요소 간격**: `space-y-4`, `space-y-6`
+- **그리드 간격**: `gap-4`, `gap-6`
+
+## 반응형 디자인
+
+```jsx
+{/* 모바일 우선 접근 */}
+<div className="
+  grid grid-cols-1          // 모바일: 1열
+  md:grid-cols-2           // 태블릿: 2열
+  lg:grid-cols-3           // 데스크톱: 3열
+  gap-4 md:gap-6
+">
+```
+
+## 애니메이션
+
+```jsx
+{
+  /* 호버 효과 */
+}
+<div className="hover:shadow-xl transition-shadow duration-300">
+  {/* 호버 시 그림자 증가 */}
+</div>;
+
+{
+  /* 트랜지션 */
+}
+<button className="hover:bg-blue-700 transition-colors duration-200">
+  {/* 색상 변화 */}
+</button>;
+```
+
+## 텍스트 스타일
+
+```jsx
+{/* 제목 */}
+<h1 className="text-3xl font-bold text-gray-900">메인 제목</h1>
+<h2 className="text-2xl font-bold text-gray-900">섹션 제목</h2>
+<h3 className="text-xl font-bold text-gray-900">카드 제목</h3>
+
+{/* 본문 */}
+<p className="text-gray-700">일반 텍스트</p>
+<p className="text-gray-500 text-sm">보조 텍스트</p>
+```
+
+## 기존 컴포넌트 참고
+
+- [Header.js](mdc:src/components/Header.js) - 네비게이션 스타일
+- [StudyCard.js](mdc:src/components/StudyCard.js) - 카드 스타일
+- [globals.css](mdc:src/app/globals.css) - 전역 스타일
+
+## 접근성 고려사항
+
+- **색상 대비**: 충분한 대비율 유지
+- **포커스 상태**: `focus:ring-2 focus:ring-blue-500` 등으로 명확한 포커스 표시
+- **터치 타겟**: 최소 44px 크기 보장 (`py-3 px-4` 이상)
