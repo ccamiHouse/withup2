@@ -1,0 +1,76 @@
+---
+alwaysApply: true
+---
+# WithUp - 스터디 모임 플랫폼 프로젝트 구조
+
+## 프로젝트 개요
+WithUp은 사용자가 스터디 모임을 쉽게 개설·참여하고 운영 관리까지 지원하는 플랫폼입니다.
+프로젝트 요구사항은 [withup.prd](mdc:doc/withup.prd)를 참조하세요.
+
+## 기술 스택
+- **Framework**: Next.js 15.0.2 (App Router)
+- **Language**: JavaScript (ES6+)
+- **UI**: React 18.3.1
+- **Styling**: Tailwind CSS 3.4.17
+- **Runtime**: Node.js 18-20
+
+## 디렉토리 구조
+```
+withup2/
+├── src/
+│   ├── app/                    # Next.js App Router 페이지
+│   │   ├── layout.js          # 루트 레이아웃
+│   │   ├── page.js            # 홈 페이지
+│   │   ├── globals.css        # 전역 스타일
+│   │   ├── studies/           # 스터디 관련 페이지
+│   │   │   ├── page.js        # 스터디 목록
+│   │   │   ├── create/        # 스터디 개설
+│   │   │   └── [id]/          # 동적 라우팅 (스터디 상세)
+│   │   └── my-page/           # 마이페이지
+│   └── components/            # 재사용 가능한 컴포넌트
+│       ├── Header.js
+│       ├── Footer.js
+│       └── StudyCard.js
+├── doc/                       # 문서
+│   └── withup.prd            # 프로덕트 요구사항 문서
+└── public/                   # 정적 자산
+```
+
+## 핵심 기능 (MVP)
+1. **스터디 개설 및 모집** - 주제, 인원수, 활동 지역구, 기간 설정
+2. **지역/공간 기반 매칭** - 위치·선호 공간·시간대 기반 추천
+3. **알림 기능** - 조건에 맞는 스터디 개설 시 알림
+4. **운영 관리** - 출석 체크, 일정 캘린더, 공지사항, 역할 분담
+5. **사이드잡 연결** - 스터디 활동 기반 부업/외주 제안
+
+## 파일 명명 규칙
+- **페이지**: `page.js` (App Router 규칙)
+- **레이아웃**: `layout.js`
+- **컴포넌트**: PascalCase (예: `StudyCard.js`, `Header.js`)
+- **유틸리티**: camelCase (예: `formatDate.js`)
+- **상수**: UPPER_SNAKE_CASE (예: `API_ENDPOINTS.js`)
+
+## 코딩 컨벤션
+- JavaScript ES6+ 문법 사용
+- 함수형 컴포넌트와 React Hooks 사용
+- 명확하고 의미 있는 변수명 사용 (영어 또는 한글 모두 허용)
+- 한 파일당 하나의 주요 컴포넌트/함수
+- PropTypes 또는 주석으로 props 문서화
+
+## 주요 라우트
+- `/` - 홈 (추천 스터디, 주요 기능)
+- `/studies` - 스터디 찾기 (필터링)
+- `/studies/create` - 스터디 개설
+- `/studies/[id]` - 스터디 상세
+- `/my-page` - 마이페이지 (참여/개설 스터디, 사이드잡)
+
+## 개발 원칙
+1. **모바일 우선** - 반응형 디자인 적용
+2. **재사용성** - 공통 컴포넌트는 `src/components/`에 분리
+3. **성능** - 빠른 검색, 실시간 매칭 속도 보장
+4. **접근성** - 시맨틱 HTML, ARIA 속성 활용
+5. **보안** - 사용자 인증, 개인정보 보호
+
+## 참고 문서
+- PRD: [withup.prd](mdc:doc/withup.prd)
+- README: [README.md](mdc:README.md)
