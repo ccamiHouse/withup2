@@ -16,9 +16,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <Image
-              src={
-                theme === "dark" ? "/images/logo-dark.png" : "/images/logo.png"
-              }
+              src="/images/logo.png"
               alt="WithUp"
               width={120}
               height={40}
