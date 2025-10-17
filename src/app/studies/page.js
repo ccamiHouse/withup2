@@ -1,82 +1,82 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import StudyCard from '@/components/StudyCard';
+import { useState } from "react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import StudyCard from "@/components/StudyCard";
 
 export default function StudiesPage() {
   const [filters, setFilters] = useState({
-    category: '',
-    location: '',
-    period: '',
-    isOnline: '',
+    category: "",
+    location: "",
+    period: "",
+    isOnline: "",
   });
 
   // 임시 스터디 데이터
   const allStudies = [
     {
       id: 1,
-      title: '토익 900점 달성 스터디',
-      description: '3개월 안에 토익 900점을 목표로 하는 스터디입니다.',
-      category: '어학',
-      location: '강남구',
-      period: '3개월',
+      title: "토익 900점 달성 스터디",
+      description: "3개월 안에 토익 900점을 목표로 하는 스터디입니다.",
+      category: "어학",
+      location: "강남구",
+      period: "3개월",
       currentMembers: 3,
       maxMembers: 5,
       isOnline: false,
     },
     {
       id: 2,
-      title: '파이썬 웹 개발 스터디',
-      description: 'Django를 활용한 웹 개발 프로젝트 스터디',
-      category: '개발',
-      location: '서초구',
-      period: '2개월',
+      title: "파이썬 웹 개발 스터디",
+      description: "Django를 활용한 웹 개발 프로젝트 스터디",
+      category: "개발",
+      location: "서초구",
+      period: "2개월",
       currentMembers: 4,
       maxMembers: 6,
       isOnline: true,
     },
     {
       id: 3,
-      title: '공기업 NCS 준비반',
-      description: 'NCS 시험 대비 문제 풀이 및 스터디',
-      category: '취업',
-      location: '마포구',
-      period: '2개월',
+      title: "공기업 NCS 준비반",
+      description: "NCS 시험 대비 문제 풀이 및 스터디",
+      category: "취업",
+      location: "마포구",
+      period: "2개월",
       currentMembers: 2,
       maxMembers: 5,
       isOnline: false,
     },
     {
       id: 4,
-      title: 'React 심화 스터디',
-      description: 'React 고급 패턴과 성능 최적화를 다루는 스터디',
-      category: '개발',
-      location: '강남구',
-      period: '2개월',
+      title: "React 심화 스터디",
+      description: "React 고급 패턴과 성능 최적화를 다루는 스터디",
+      category: "개발",
+      location: "강남구",
+      period: "2개월",
       currentMembers: 5,
       maxMembers: 6,
       isOnline: true,
     },
     {
       id: 5,
-      title: 'JLPT N2 합격반',
-      description: '일본어능력시험 N2 합격을 목표로 하는 스터디',
-      category: '어학',
-      location: '종로구',
-      period: '3개월',
+      title: "JLPT N2 합격반",
+      description: "일본어능력시험 N2 합격을 목표로 하는 스터디",
+      category: "어학",
+      location: "종로구",
+      period: "3개월",
       currentMembers: 4,
       maxMembers: 6,
       isOnline: false,
     },
     {
       id: 6,
-      title: '데이터 분석 입문',
-      description: 'Python과 SQL을 활용한 데이터 분석 스터디',
-      category: '개발',
-      location: '송파구',
-      period: '2개월',
+      title: "데이터 분석 입문",
+      description: "Python과 SQL을 활용한 데이터 분석 스터디",
+      category: "개발",
+      location: "송파구",
+      period: "2개월",
       currentMembers: 3,
       maxMembers: 5,
       isOnline: true,
@@ -90,22 +90,26 @@ export default function StudiesPage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-gray-50">
+      <main className="min-h-screen bg-white dark:bg-dark-primary transition-colors duration-300">
         <div className="container mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-8">스터디 찾기</h1>
+          <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">
+            스터디 찾기
+          </h1>
 
           {/* Filters */}
-          <div className="bg-white p-6 rounded-lg shadow-md mb-8">
+          <div className="card-light dark:card-dark p-6 mb-8">
             <div className="grid md:grid-cols-4 gap-4">
               {/* Category Filter */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   카테고리
                 </label>
                 <select
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-secondary text-gray-900 dark:text-white rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
                   value={filters.category}
-                  onChange={(e) => handleFilterChange('category', e.target.value)}
+                  onChange={(e) =>
+                    handleFilterChange("category", e.target.value)
+                  }
                 >
                   <option value="">전체</option>
                   <option value="개발">개발</option>
@@ -117,13 +121,15 @@ export default function StudiesPage() {
 
               {/* Location Filter */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   지역
                 </label>
                 <select
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-secondary text-gray-900 dark:text-white rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
                   value={filters.location}
-                  onChange={(e) => handleFilterChange('location', e.target.value)}
+                  onChange={(e) =>
+                    handleFilterChange("location", e.target.value)
+                  }
                 >
                   <option value="">전체</option>
                   <option value="강남구">강남구</option>
@@ -136,13 +142,13 @@ export default function StudiesPage() {
 
               {/* Period Filter */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   기간
                 </label>
                 <select
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-secondary text-gray-900 dark:text-white rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
                   value={filters.period}
-                  onChange={(e) => handleFilterChange('period', e.target.value)}
+                  onChange={(e) => handleFilterChange("period", e.target.value)}
                 >
                   <option value="">전체</option>
                   <option value="1개월">1개월</option>
@@ -154,13 +160,15 @@ export default function StudiesPage() {
 
               {/* Online Filter */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   온/오프라인
                 </label>
                 <select
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-secondary text-gray-900 dark:text-white rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
                   value={filters.isOnline}
-                  onChange={(e) => handleFilterChange('isOnline', e.target.value)}
+                  onChange={(e) =>
+                    handleFilterChange("isOnline", e.target.value)
+                  }
                 >
                   <option value="">전체</option>
                   <option value="true">온라인</option>
@@ -172,8 +180,12 @@ export default function StudiesPage() {
 
           {/* Results */}
           <div className="mb-4">
-            <p className="text-gray-600">
-              총 <span className="font-semibold text-blue-600">{allStudies.length}</span>개의 스터디
+            <p className="text-gray-600 dark:text-gray-300">
+              총{" "}
+              <span className="font-semibold text-primary-500">
+                {allStudies.length}
+              </span>
+              개의 스터디
             </p>
           </div>
 
@@ -189,4 +201,3 @@ export default function StudiesPage() {
     </>
   );
 }
-

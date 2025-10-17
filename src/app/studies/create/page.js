@@ -1,50 +1,55 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { useRouter } from "next/navigation";
 
 export default function CreateStudyPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    category: '',
-    location: '',
-    period: '',
+    title: "",
+    description: "",
+    category: "",
+    location: "",
+    period: "",
     maxMembers: 5,
     isOnline: false,
-    startDate: '',
+    startDate: "",
   });
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // TODO: API 호출로 스터디 생성
-    console.log('스터디 생성:', formData);
-    alert('스터디가 개설되었습니다!');
-    router.push('/studies');
+    console.log("스터디 생성:", formData);
+    alert("스터디가 개설되었습니다!");
+    router.push("/studies");
   };
 
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-gray-50 py-8">
+      <main className="min-h-screen bg-white dark:bg-dark-primary py-8 transition-colors duration-300">
         <div className="container mx-auto px-4 max-w-3xl">
-          <h1 className="text-3xl font-bold mb-8">스터디 개설하기</h1>
+          <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">
+            스터디 개설하기
+          </h1>
 
-          <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-8">
+          <form
+            onSubmit={handleSubmit}
+            className="card-light dark:card-dark p-8"
+          >
             {/* Title */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 스터디 제목 *
               </label>
               <input
@@ -53,14 +58,14 @@ export default function CreateStudyPage() {
                 required
                 value={formData.title}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-secondary text-gray-900 dark:text-white rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
                 placeholder="예: 토익 900점 달성 스터디"
               />
             </div>
 
             {/* Description */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 스터디 소개 *
               </label>
               <textarea
@@ -69,14 +74,14 @@ export default function CreateStudyPage() {
                 value={formData.description}
                 onChange={handleChange}
                 rows={4}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-secondary text-gray-900 dark:text-white rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
                 placeholder="스터디에 대해 자세히 설명해주세요"
               />
             </div>
 
             {/* Category */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 카테고리 *
               </label>
               <select
@@ -84,7 +89,7 @@ export default function CreateStudyPage() {
                 required
                 value={formData.category}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-secondary text-gray-900 dark:text-white rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
               >
                 <option value="">선택하세요</option>
                 <option value="개발">개발</option>
@@ -103,9 +108,9 @@ export default function CreateStudyPage() {
                   name="isOnline"
                   checked={formData.isOnline}
                   onChange={handleChange}
-                  className="w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  className="w-4 h-4 text-primary-500 focus:ring-primary-500 border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-dark-secondary"
                 />
-                <span className="ml-2 text-sm font-medium text-gray-700">
+                <span className="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                   온라인 스터디
                 </span>
               </label>
@@ -114,7 +119,7 @@ export default function CreateStudyPage() {
             {/* Location (if offline) */}
             {!formData.isOnline && (
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   활동 지역 *
                 </label>
                 <select
@@ -122,7 +127,7 @@ export default function CreateStudyPage() {
                   required={!formData.isOnline}
                   value={formData.location}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-secondary text-gray-900 dark:text-white rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
                 >
                   <option value="">선택하세요</option>
                   <option value="강남구">강남구</option>
@@ -138,7 +143,7 @@ export default function CreateStudyPage() {
 
             {/* Period */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 활동 기간 *
               </label>
               <select
@@ -146,7 +151,7 @@ export default function CreateStudyPage() {
                 required
                 value={formData.period}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-secondary text-gray-900 dark:text-white rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
               >
                 <option value="">선택하세요</option>
                 <option value="1개월">1개월</option>
@@ -159,7 +164,7 @@ export default function CreateStudyPage() {
 
             {/* Start Date */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 시작 예정일 *
               </label>
               <input
@@ -168,13 +173,13 @@ export default function CreateStudyPage() {
                 required
                 value={formData.startDate}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-secondary text-gray-900 dark:text-white rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
               />
             </div>
 
             {/* Max Members */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 모집 인원 *
               </label>
               <input
@@ -185,23 +190,25 @@ export default function CreateStudyPage() {
                 max="20"
                 value={formData.maxMembers}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-secondary text-gray-900 dark:text-white rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
               />
-              <p className="text-sm text-gray-500 mt-1">최소 2명, 최대 20명</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                최소 2명, 최대 20명
+              </p>
             </div>
 
             {/* Submit Button */}
             <div className="flex gap-4">
               <button
                 type="submit"
-                className="flex-1 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+                className="flex-1 pill-button bg-primary-500 text-white hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500/50"
               >
                 스터디 개설하기
               </button>
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="flex-1 bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 transition"
+                className="flex-1 pill-button bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500/50"
               >
                 취소
               </button>
@@ -213,4 +220,3 @@ export default function CreateStudyPage() {
     </>
   );
 }
-

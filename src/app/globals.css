@@ -1,19 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 255, 255, 255;
-  --background-end-rgb: 255, 255, 255;
+  /* Light Mode Colors */
+  --foreground-rgb: 44, 62, 80; /* text-primary */
+  --background-start-rgb: 255, 255, 255; /* white */
+  --background-end-rgb: 248, 249, 250; /* light gray */
+  --card-background: 255, 255, 255; /* white */
+  --border-color: 229, 231, 235; /* gray-200 */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.dark {
+  /* Dark Mode Colors */
+  --foreground-rgb: 255, 255, 255; /* white */
+  --background-start-rgb: 26, 26, 26; /* dark-primary */
+  --background-end-rgb: 45, 45, 45; /* dark-secondary */
+  --card-background: 45, 45, 45; /* dark-secondary */
+  --border-color: 255, 255, 255; /* white with opacity */
 }
 
 body {
@@ -24,11 +29,65 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  font-family: "Noto Sans KR", "Roboto", system-ui, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 기존 애니메이션 제거 - framer-motion 사용 */
+
+/* Custom Scrollbar for Dark Mode */
+.dark ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: rgb(26, 26, 26);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgb(45, 45, 45);
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgb(64, 64, 64);
+}
+
+/* Focus States */
+.focus-primary:focus {
+  outline: 3px solid #ff6b6b;
+  outline-offset: 2px;
+}
+
+/* Card Styles */
+.card-dark {
+  background-color: rgb(var(--card-background));
+  border: 1px solid rgba(var(--border-color), 0.1);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.card-light {
+  background-color: rgb(var(--card-background));
+  border: 1px solid rgba(var(--border-color), 1);
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
-}
 
+  .pill-button {
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .pill-button:hover {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}

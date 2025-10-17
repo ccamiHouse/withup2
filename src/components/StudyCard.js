@@ -1,4 +1,7 @@
-import Link from 'next/link';
+"use client";
+
+import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function StudyCard({ study }) {
   const {
@@ -15,27 +18,36 @@ export default function StudyCard({ study }) {
 
   return (
     <Link href={`/studies/${id}`}>
-      <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow p-6 h-full cursor-pointer">
+      <motion.div
+        className="card-dark dark:card-dark card-light hover:shadow-lg transition-shadow duration-200 p-6 h-full cursor-pointer group"
+        whileHover={{ y: -4 }}
+        whileTap={{ scale: 0.98 }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
+      >
         {/* Header */}
         <div className="flex justify-between items-start mb-3">
-          <span className="bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full">
+          <span className="bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-sm font-semibold px-3 py-1 rounded-full">
             {category}
           </span>
           {isOnline && (
-            <span className="bg-green-100 text-green-800 text-sm font-semibold px-3 py-1 rounded-full">
+            <span className="bg-secondary-100 dark:bg-secondary-900 text-secondary-800 dark:text-secondary-200 text-sm font-semibold px-3 py-1 rounded-full">
               온라인
             </span>
           )}
         </div>
 
         {/* Title */}
-        <h3 className="text-xl font-bold mb-2 line-clamp-1">{title}</h3>
+        <h3 className="text-xl font-bold mb-2 line-clamp-1 text-gray-900 dark:text-white group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors">
+          {title}
+        </h3>
 
         {/* Description */}
-        <p className="text-gray-600 mb-4 line-clamp-2">{description}</p>
+        <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">
+          {description}
+        </p>
 
         {/* Info */}
-        <div className="space-y-2 text-sm text-gray-500">
+        <div className="space-y-2 text-sm text-gray-500 dark:text-gray-400">
           <div className="flex items-center">
             <svg
               className="w-4 h-4 mr-2"
@@ -94,15 +106,14 @@ export default function StudyCard({ study }) {
 
         {/* Progress Bar */}
         <div className="mt-4">
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
             <div
-              className="bg-blue-600 h-2 rounded-full"
+              className="bg-primary-500 h-2 rounded-full transition-all duration-300"
               style={{ width: `${(currentMembers / maxMembers) * 100}%` }}
             ></div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </Link>
   );
 }
-
