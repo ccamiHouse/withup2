@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -8,7 +8,7 @@ import StudyCard from "@/components/StudyCard";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-export default function SearchPage() {
+function SearchContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
   
@@ -132,8 +132,8 @@ export default function SearchPage() {
             </h1>
             {query && (
               <p className="text-lg text-gray-600 dark:text-gray-300">
-                '<span className="text-primary-500 font-semibold">{query}</span>
-                '에 대한 검색 결과{" "}
+                {`'`}<span className="text-primary-500 font-semibold">{query}</span>
+                {`'`}에 대한 검색 결과{" "}
                 <span className="font-semibold">
                   {sortedStudies.length}개
                 </span>
@@ -232,7 +232,7 @@ export default function SearchPage() {
               <p className="text-gray-600 dark:text-gray-300 mb-8">
                 {query ? (
                   <>
-                    '<span className="font-semibold">{query}</span>'에 대한
+                    {`'`}<span className="font-semibold">{query}</span>{`'`}에 대한
                     검색 결과가 없습니다.
                     <br />
                     다른 검색어를 입력하거나 필터를 변경해보세요.
@@ -306,6 +306,27 @@ export default function SearchPage() {
       </main>
       <Footer />
     </>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={
+      <>
+        <Header />
+        <main className="min-h-screen bg-gray-50 dark:bg-dark-primary py-8 transition-colors duration-300">
+          <div className="container mx-auto px-4 max-w-6xl">
+            <div className="text-center py-20">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto"></div>
+              <p className="mt-4 text-gray-600 dark:text-gray-300">검색 중...</p>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </>
+    }>
+      <SearchContent />
+    </Suspense>
   );
 }
 
