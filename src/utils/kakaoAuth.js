@@ -4,7 +4,7 @@
  */
 
 // 백엔드 API URL 환경 변수
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8082';
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 /**
  * 카카오 로그인 URL 생성
@@ -89,7 +89,7 @@ export async function handleKakaoCallback(code) {
     console.log('카카오 인증 코드 받음:', code);
 
     // 백엔드 API로 카카오 인증 코드 전송
-    const response = await fetch(`${BACKEND_URL}/api-guest/auth/login/kakao`, {
+    const response = await fetch(`${BACKEND_URL}/api-guest/auth/login-signin/kakao`, {
       method: 'POST',
       headers: {
         'accept': '*/*',
