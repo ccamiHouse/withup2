@@ -7,8 +7,30 @@ import VoiceButton from "@/components/VoiceButton";
 import AudioWaveform from "@/components/AudioWaveform";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Home() {
+  const { user, isLoggedIn } = useAuth();
+  const [showWelcomeMessage, setShowWelcomeMessage] = useState(false);
+
+  // 로그인 성공 메시지 표시
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const loginSuccess = urlParams.get('login');
+    
+    if (loginSuccess === 'success' && isLoggedIn) {
+      setShowWelcomeMessage(true);
+      // 3초 후 메시지 숨기기
+      setTimeout(() => {
+        setShowWelcomeMessage(false);
+      }, 3000);
+      
+      // URL에서 파라미터 제거
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, [isLoggedIn]);
+
   // 임시 스터디 데이터
   const recommendedStudies = [
     {
@@ -50,6 +72,29 @@ export default function Home() {
     <>
       <Header />
       <main className="min-h-screen bg-white dark:bg-dark-primary transition-colors duration-300">
+        {/* 로그인 성공 환영 메시지 */}
+        {showWelcomeMessage && (
+          <motion.div
+            className="bg-green-50 border-l-4 border-green-400 p-4 mx-4 mt-4 rounded"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+          >
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div className="ml-3">
+                <p className="text-sm text-green-700">
+                  <strong>환영합니다!</strong> {user?.nickname || '사용자'}님, WithUp에 성공적으로 로그인되었습니다.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
         {/* Hero Section */}
         <motion.section
           className="bg-gradient-to-br from-primary-500 to-secondary-500 text-white py-20"

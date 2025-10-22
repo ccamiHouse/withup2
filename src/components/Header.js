@@ -4,13 +4,16 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useAuth } from "@/contexts/AuthContext";
 import Image from "next/image";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
   const { theme, toggleTheme } = useTheme();
+  const { user, isLoggedIn, logout } = useAuth();
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -125,12 +128,54 @@ export default function Header() {
               )}
             </button>
 
-            <Link
-              href="/login"
-              className="pill-button bg-primary-500 text-white hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500/50"
-            >
-              로그인
-            </Link>
+            {/* 로그인 상태에 따른 버튼 */}
+            {isLoggedIn ? (
+              <div className="relative">
+                <button
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-primary-500 transition-colors"
+                >
+                  <div className="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                    {user?.nickname?.charAt(0) || 'U'}
+                  </div>
+                  <span className="hidden sm:block">{user?.nickname || '사용자'}</span>
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </button>
+
+                {/* 사용자 메뉴 드롭다운 */}
+                {isUserMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-dark-secondary rounded-lg shadow-lg border border-gray-200 dark:border-gray-600 z-50">
+                    <div className="py-1">
+                      <Link
+                        href="/my-page"
+                        className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-tertiary"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        마이페이지
+                      </Link>
+                      <button
+                        onClick={() => {
+                          logout();
+                          setIsUserMenuOpen(false);
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-tertiary"
+                      >
+                        로그아웃
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="pill-button bg-primary-500 text-white hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500/50"
+              >
+                로그인
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -245,13 +290,25 @@ export default function Header() {
             >
               마이페이지
             </Link>
-            <Link
-              href="/login"
-              className="block py-2 text-primary-500 font-semibold hover:text-primary-600 transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              로그인
-            </Link>
+            {isLoggedIn ? (
+              <button
+                onClick={() => {
+                  logout();
+                  setIsMenuOpen(false);
+                }}
+                className="block w-full text-left py-2 text-primary-500 font-semibold hover:text-primary-600 transition-colors"
+              >
+                로그아웃
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                className="block py-2 text-primary-500 font-semibold hover:text-primary-600 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                로그인
+              </Link>
+            )}
           </div>
         )}
       </nav>

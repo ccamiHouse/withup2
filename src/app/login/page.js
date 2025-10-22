@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
+import { initiateKakaoLogin, extractAuthCode, extractError, checkLoginStatus, handleKakaoCallback } from "@/utils/kakaoAuth";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -13,6 +14,68 @@ export default function LoginPage() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [isKakaoLoading, setIsKakaoLoading] = useState(false);
+
+  // URL 파라미터 확인 (에러 메시지, 로그인 성공, 카카오 코드 등)
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const errorParam = urlParams.get('error');
+    const loginSuccess = urlParams.get('login');
+    const kakaoCode = urlParams.get('code'); // 카카오 로그인 콜백에서 받은 인증 코드
+
+    // 카카오 로그인 코드가 있는 경우 백엔드로 전송
+    if (kakaoCode) {
+      handleKakaoCode(kakaoCode);
+      return;
+    }
+
+    if (errorParam) {
+      switch (errorParam) {
+        case 'no_code':
+          setError('카카오 로그인 인증 코드를 받지 못했습니다.');
+          break;
+        case 'login_failed':
+          setError('카카오 로그인에 실패했습니다. 다시 시도해주세요.');
+          break;
+        default:
+          setError('로그인 중 오류가 발생했습니다.');
+      }
+    }
+
+    if (loginSuccess === 'success') {
+      // 로그인 성공 시 메인 페이지로 리다이렉트
+      window.location.href = '/';
+    }
+  }, []);
+
+  // 카카오 로그인 코드 처리
+  const handleKakaoCode = async (code) => {
+    try {
+      setIsKakaoLoading(true);
+      setError('');
+
+      console.log('카카오 인증 코드 처리 시작:', code);
+
+      // 백엔드 API로 카카오 인증 코드 전송
+      const result = await handleKakaoCallback(code);
+
+      if (result.success) {
+        console.log('카카오 로그인 성공:', result.data);
+        alert('로그인이 성공적으로 완료되었습니다!');
+        
+        // 메인 페이지로 리다이렉트
+        window.location.href = '/?login=success';
+      } else {
+        setError(result.error || '카카오 로그인에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('카카오 로그인 처리 실패:', error);
+      setError('카카오 로그인 처리 중 오류가 발생했습니다.');
+    } finally {
+      setIsKakaoLoading(false);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,10 +99,28 @@ export default function LoginPage() {
     }, 1000);
   };
 
+  const handleKakaoLogin = async () => {
+    try {
+      setIsKakaoLoading(true);
+      setError("");
+      
+      // 카카오 로그인 시작
+      initiateKakaoLogin();
+    } catch (error) {
+      console.error('카카오 로그인 에러:', error);
+      setError('카카오 로그인 요청 중 오류가 발생했습니다.');
+      setIsKakaoLoading(false);
+    }
+  };
+
   const handleSocialLogin = (provider) => {
-    // TODO: 소셜 로그인 연동
-    console.log(`${provider} 로그인 시도`);
-    alert(`${provider} 로그인 기능은 추후 구현 예정입니다.`);
+    if (provider === "Kakao") {
+      handleKakaoLogin();
+    } else {
+      // 다른 소셜 로그인은 추후 구현
+      console.log(`${provider} 로그인 시도`);
+      alert(`${provider} 로그인 기능은 추후 구현 예정입니다.`);
+    }
   };
 
   return (
@@ -64,6 +145,31 @@ export default function LoginPage() {
                   WithUp에 오신 것을 환영합니다
                 </p>
               </div>
+
+              {/* 로딩 메시지 */}
+              {isKakaoLoading && (
+                <div className="mb-6 p-4 bg-blue-50 border border-blue-200 text-blue-700 rounded-lg">
+                  <div className="flex items-center">
+                    <svg className="animate-spin w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    카카오 로그인 처리 중...
+                  </div>
+                </div>
+              )}
+
+              {/* 에러 메시지 */}
+              {error && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
+                  <div className="flex items-center">
+                    <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                    </svg>
+                    {error}
+                  </div>
+                </div>
+              )}
 
               {/* 로그인 폼 */}
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -231,7 +337,8 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => handleSocialLogin("Kakao")}
-                  className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-[#FEE500] hover:bg-[#FDD835] rounded-lg transition-colors"
+                  disabled={isKakaoLoading}
+                  className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-[#FEE500] hover:bg-[#FDD835] disabled:bg-[#F5F5F5] disabled:cursor-not-allowed rounded-lg transition-colors"
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24">
                     <path
@@ -240,7 +347,7 @@ export default function LoginPage() {
                     />
                   </svg>
                   <span className="text-[#000000] font-medium">
-                    카카오로 계속하기
+                    {isKakaoLoading ? "카카오 로그인 중..." : "카카오로 계속하기"}
                   </span>
                 </button>
 
