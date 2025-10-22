@@ -3,6 +3,9 @@
  * 라이브러리 없이 직접 구현
  */
 
+// 백엔드 API URL 환경 변수
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8082';
+
 /**
  * 카카오 로그인 URL 생성
  * @returns {string} 카카오 인증 URL
@@ -86,7 +89,7 @@ export async function handleKakaoCallback(code) {
     console.log('카카오 인증 코드 받음:', code);
 
     // 백엔드 API로 카카오 인증 코드 전송
-    const response = await fetch('http://localhost:8082/api-guest/auth/login/kakao', {
+    const response = await fetch(`${BACKEND_URL}/api-guest/auth/login/kakao`, {
       method: 'POST',
       headers: {
         'accept': '*/*',
@@ -152,7 +155,7 @@ export function extractError(url = window.location.href) {
 export async function checkLoginStatus() {
   try {
     // 백엔드에서 로그인 상태 확인 API 호출
-    const response = await fetch('http://localhost:8082/api/auth/check-login', {
+    const response = await fetch(`${BACKEND_URL}/api/auth/check-login`, {
       method: 'GET',
       credentials: 'include', // HttpOnly 쿠키 포함
     });
@@ -197,7 +200,7 @@ export async function checkLoginStatus() {
 export async function logout() {
   try {
     // 백엔드 로그아웃 API 호출 (HttpOnly 토큰 정리)
-    const response = await fetch('http://localhost:8082/api-logined/auth/logout', {
+    const response = await fetch(`${BACKEND_URL}/api-logined/auth/logout`, {
       method: 'POST',
       headers: {
         'accept': '*/*',
