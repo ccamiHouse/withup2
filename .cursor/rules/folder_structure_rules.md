@@ -50,7 +50,6 @@ src/app/
 ├── globals.css           # 전역 스타일
 ├── layout.js             # 루트 레이아웃
 ├── page.js               # 홈페이지
-├── pageDeth.js           # 페이지 깊이 관리
 └── providers.js          # 프로바이더 설정
 ```
 

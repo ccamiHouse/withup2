@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Providers } from "@/components/Providers";
+import { Providers } from "./providers";
 
 export const metadata = {
   title: "WithUp - 스터디 모임 플랫폼",
