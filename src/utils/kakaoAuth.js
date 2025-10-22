@@ -154,8 +154,8 @@ export function extractError(url = window.location.href) {
  */
 export async function checkLoginStatus() {
   try {
-    // 백엔드에서 로그인 상태 확인 API 호출
-    const response = await fetch(`${BACKEND_URL}/api/auth/check-login`, {
+    // 로컬 API로 로그인 상태 확인 (HttpOnly 쿠키 기반)
+    const response = await fetch('/api/auth/me', {
       method: 'GET',
       credentials: 'include', // HttpOnly 쿠키 포함
     });
@@ -163,15 +163,10 @@ export async function checkLoginStatus() {
     if (response.ok) {
       const data = await response.json();
       
-      if (data.success && data.content && data.content.loggedIn) {
+      if (data.success && data.isLoggedIn) {
         return {
           isLoggedIn: true,
-          user: {
-            userId: data.content.userId,
-            socialProvider: data.content.socialProvider,
-            socialId: data.content.socialId,
-            message: data.content.message
-          },
+          user: data.user,
         };
       } else {
         return {
@@ -179,7 +174,7 @@ export async function checkLoginStatus() {
         };
       }
     } else {
-      // 백엔드 쿠키가 없거나 만료된 경우
+      // API 호출 실패
       return {
         isLoggedIn: false,
       };

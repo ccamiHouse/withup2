@@ -3,25 +3,49 @@
  * 세션 쿠키 삭제
  */
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 
+export async function POST() {
   try {
-    // 세션 쿠키 삭제
-    res.setHeader('Set-Cookie', 'session=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0');
+    const cookieStore = await cookies();
+    
+    // 세션 쿠키 삭제 (httponly)
+    cookieStore.set('session', '', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 0,
+      path: '/'
+    });
 
-    return res.status(200).json({
+    // 추가적인 인증 관련 쿠키들도 삭제
+    cookieStore.set('accessToken', '', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 0,
+      path: '/'
+    });
+
+    cookieStore.set('refreshToken', '', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 0,
+      path: '/'
+    });
+
+    return NextResponse.json({
       success: true,
       message: '로그아웃 성공',
-    });
+    }, { status: 200 });
 
   } catch (error) {
     console.error('로그아웃 실패:', error);
-    return res.status(500).json({
+    return NextResponse.json({
       success: false,
       message: '로그아웃 실패',
-    });
+    }, { status: 500 });
   }
 }

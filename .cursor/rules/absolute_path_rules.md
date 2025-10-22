@@ -16,7 +16,6 @@
     "paths": {
       "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
-      "@saga/*": ["./src/saga/*"],
       "@styles/*": ["./src/styles/*"],
       "@utils/*": ["./src/utils/*"],
       "@hooks/*": ["./src/hooks/*"],
@@ -80,13 +79,6 @@ import { showToast } from '@/utils/toast/toast';
 import logEntries from '@/utils/logEntries.js';
 ```
 
-#### @saga/ 경로
-```javascript
-// Redux Saga 파일 임포트
-import { watchFood } from '@/saga/foodSaga';
-import { watchStudio} from '@/saga/studioSaga';
-import { watchStore} from '@/saga/storeSaga';
-```
 
 ### 3. 임포트 순서 규칙
 
@@ -94,12 +86,10 @@ import { watchStore} from '@/saga/storeSaga';
 ```javascript
 // 1. 외부 라이브러리
 import { configureStore } from '@reduxjs/toolkit';
-import createSagaMiddleware from 'redux-saga';
 
 // 2. 프로젝트 내부 모듈 (절대 경로)
 import { API_URL } from "@/api/apis";
 import { showToast } from '@/utils/toast/toast';
-import rootSaga from '@/saga/rootSaga';
 
 // 3. 상대 경로 (같은 디렉토리 내)
 import rootReducer from './reducers/rootReducer';
@@ -139,7 +129,6 @@ import { showToast } from '@/utils/toast/toast';
 - **@redux/**: Redux 관련 파일
 - **@api/**: API 관련 파일
 - **@utils/**: 유틸리티 함수
-- **@saga/**: Redux Saga 파일
 
 #### 사용하지 않는 패턴
 - **@components/**: 설정되어 있지만 실제 사용 안 함

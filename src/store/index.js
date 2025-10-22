@@ -1,11 +1,7 @@
 // store/index.js
 import { configureStore } from '@reduxjs/toolkit';
-import createSagaMiddleware from 'redux-saga';
 import authReducer from '@/store/authSlice';
 import themeReducer from '@/store/themeSlice';
-import rootSaga from '@/saga/rootSaga';
-
-const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
   reducer: {
@@ -13,10 +9,8 @@ export const store = configureStore({
     theme: themeReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),
+    getDefaultMiddleware(),
   devTools: process.env.NODE_ENV !== 'production',
 });
-
-sagaMiddleware.run(rootSaga);
 
 export default store;

@@ -5,7 +5,6 @@
 - **Atomic Design**: atoms, modules, templates, uncategorized 구조
 - **Next.js**: App Router 기반 페이지 컴포넌트
 - **Tailwind CSS**: 유틸리티 클래스 기반 스타일링
-- **TypeScript**: 타입 안정성을 위한 인터페이스 정의
 - **재사용성**: 높은 재사용성을 위한 컴포넌트 설계
 
 ## 컴포넌트 디렉토리 구조

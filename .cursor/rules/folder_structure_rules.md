@@ -3,7 +3,7 @@
 ## 프로젝트 개요
 이 프로젝트는 다음과 같은 구조의 Next.js 프로젝트입니다:
 - 프론트엔드: Next.js와 React
-- 상태 관리: Redux와 Redux Saga
+- 상태 관리: Redux Toolkit
 - 스타일링: Tailwind CSS
 - API: Axios를 사용한 HTTP 요청
 - 이미지 업로드: 커스텀 ImageUploader 컴포넌트
@@ -120,19 +120,8 @@ src/redux/
 └── store.js               # 스토어 설정
 ```
 
-### 4. saga 디렉토리 (Redux Saga)
-```
-src/saga/
-├── authSaga.js            # 인증 사가
-├── commonSaga.js          # 공통 사가
-├── foodSaga.js            # 식품 사가
-├── jobSaga.js             # 작업 사가
-├── rootSaga.js            # 루트 사가
-├── storeSaga.js           # 스토어 사가
-└── studioSaga.js          # 스튜디오 사가
-```
 
-### 5. enums 디렉토리 (열거형 상수)
+### 4. enums 디렉토리 (열거형 상수)
 ```
 src/enums/
 ├── apis/
@@ -164,7 +153,7 @@ src/enums/
 └── subscriptionManage.js  # 구독 관리
 ```
 
-### 6. 기타 디렉토리
+### 5. 기타 디렉토리
 ```
 src/
 ├── api/
@@ -252,22 +241,21 @@ public/
 - **service**: 서비스 관련 모든 기능 (기존: studio)
 - **auth**: 인증 관련 모든 기능 (공통)
 
-### 7. 상태 관리 규칙
-- **Redux**: 전역 상태 관리
-- **Redux Saga**: 비동기 작업 처리
+### 6. 상태 관리 규칙
+- **Redux Toolkit**: 전역 상태 관리
 - **React Query**: 서버 상태 관리 (일부 사용)
 
-### 8. 스타일링 규칙
+### 7. 스타일링 규칙
 - **Tailwind CSS**: 유틸리티 클래스 사용
 - **CSS 모듈**: 컴포넌트별 스타일 격리
 - **글로벌 스타일**: `globals.css`에서 관리
 
-### 9. API 규칙
+### 8. API 규칙
 - **RESTful API**: 표준 REST 규칙 준수
 - **Axios**: HTTP 클라이언트로 사용
 - **환경변수**: API 서버 URL 환경변수로 관리
 
-### 10. 테스트 규칙
+### 9. 테스트 규칙
 - **test 디렉토리**: 개발/테스트용 페이지
 - **숫자 네이밍**: 테스트 페이지는 숫자로 구분
 - **별도 분리**: 프로덕션 코드와 분리
@@ -314,7 +302,7 @@ public/
 
 ### 3. 상태 관리 설정
 1. Redux store 설정
-2. 필요한 리듀서와 사가 생성
+2. 필요한 리듀서 생성
 3. 도메인별로 상태 관리 분리
 
 이 폴더 구조 규칙을 따라 프로젝트를 관리하면 코드의 가독성과 유지보수성이 향상됩니다.

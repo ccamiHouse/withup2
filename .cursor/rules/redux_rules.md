@@ -3,7 +3,6 @@
 ## 프로젝트 개요
 이 프로젝트는 다음과 같은 Redux 상태 관리 구조를 사용합니다:
 - **Redux Toolkit**: 현대적인 Redux 사용법
-- **Redux Saga**: 비동기 작업 처리
 - **도메인별 분리**: 각 기능별로 리듀서 분리
 - **타입 안정성**: 액션과 상태의 타입 관리
 
@@ -33,26 +32,19 @@ src/redux/
 #### store.js 구조
 ```javascript
 import { configureStore } from '@reduxjs/toolkit';
-import createSagaMiddleware from 'redux-saga';
 import rootReducer from './reducers/rootReducer';
-import rootSaga from '@/saga/rootSaga';
-
-const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) => 
-    getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),
+    getDefaultMiddleware(),
   devTools: process.env.NODE_ENV !== 'production',
 });
-
-sagaMiddleware.run(rootSaga);
 ```
 
 #### 규칙
 - **Redux Toolkit 사용**: `configureStore` 사용
-- **Saga 미들웨어**: Redux Saga를 위한 미들웨어 설정
-- **Thunk 비활성화**: Saga 사용 시 thunk 비활성화
+- **기본 미들웨어**: Redux Toolkit의 기본 미들웨어 사용
 - **DevTools**: 개발 환경에서만 활성화
 
 ### 2. 루트 리듀서 규칙
@@ -185,17 +177,14 @@ const initialState = {
 };
 
 reducers: {
-  requestAction(state) {
-    state.loading = true;
-    state.error = null;
+  setLoading(state, action) {
+    state.loading = action.payload;
   },
-  successAction(state, action) {
-    state.loading = false;
-    state.data = action.payload;
-  },
-  failureAction(state, action) {
-    state.loading = false;
+  setError(state, action) {
     state.error = action.payload;
+  },
+  setData(state, action) {
+    state.data = action.payload;
   }
 }
 ```
@@ -203,8 +192,8 @@ reducers: {
 #### 규칙
 - **로딩 상태**: 비동기 작업 시 loading 상태 관리
 - **에러 상태**: 에러 발생 시 error 상태에 저장
-- **요청 시작**: loading을 true로, error를 null로 초기화
-- **요청 완료**: loading을 false로 설정
+- **상태 업데이트**: 각 상태를 개별적으로 관리
+- **일관성**: 모든 리듀서에서 동일한 패턴 사용
 
 ### 8. 도메인별 리듀서 규칙
 
@@ -274,5 +263,11 @@ import logger from '@/utils/logger/logger';
 2. 불필요한 상태 제거
 3. 도메인별로 명확히 분리
 4. 네이밍 규칙 통일
+
+### Redux Saga 제거 후 비동기 처리
+1. Redux Toolkit의 createAsyncThunk 사용
+2. 컴포넌트에서 직접 API 호출
+3. React Query 또는 SWR 도입 고려
+4. 기존 Saga 로직을 적절한 방식으로 마이그레이션
 
 이 Redux 규칙을 따라 상태 관리를 하면 코드의 가독성과 유지보수성이 향상됩니다.

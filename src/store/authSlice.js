@@ -1,5 +1,30 @@
 // store/authSlice.js
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+// 비동기 액션 - 로그아웃 API 호출
+export const logoutAsync = createAsyncThunk(
+  'auth/logoutAsync',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api-logined/auth/logout`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // 쿠키 포함
+      });
+
+      if (!response.ok) {
+        throw new Error('로그아웃 실패');
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 // 초기 상태 - Redux 규칙에 따른 네이밍 적용
 const initialState = {
@@ -53,15 +78,30 @@ const authSlice = createSlice({
       state.error = null;
     },
     
-    // Saga 액션들 - Request 접미사 사용
+    // 기존 액션들
     checkAuthRequest: (state) => {
       state.isLoading = true;
       state.error = null;
     },
-    
-    logoutRequest: (state) => {
-      state.isLoading = true;
-    },
+  },
+  // 비동기 액션 처리
+  extraReducers: (builder) => {
+    builder
+      // 로그아웃 처리
+      .addCase(logoutAsync.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(logoutAsync.fulfilled, (state) => {
+        state.isLoading = false;
+        state.user = null;
+        state.isLoggedIn = false;
+        state.error = null;
+      })
+      .addCase(logoutAsync.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
   },
 });
 
@@ -73,7 +113,6 @@ export const {
   setLoading, 
   setError, 
   clearError,
-  checkAuthRequest,
-  logoutRequest
+  checkAuthRequest
 } = authSlice.actions;
 export default authSlice.reducer;
