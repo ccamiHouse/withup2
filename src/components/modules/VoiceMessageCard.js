@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import AudioWaveform from "./AudioWaveform";
+import AudioWaveform from "@/components/atoms/AudioWaveform";
 
 export default function VoiceMessageCard({
   message = {

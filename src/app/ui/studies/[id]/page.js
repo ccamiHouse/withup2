@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import VoiceButton from "@/components/VoiceButton";
-import VoiceMessageCard from "@/components/VoiceMessageCard";
+import Header from "@/components/templates/Header";
+import Footer from "@/components/templates/Footer";
+import VoiceButton from "@/components/atoms/VoiceButton";
+import VoiceMessageCard from "@/components/modules/VoiceMessageCard";
 import { useParams, useRouter } from "next/navigation";
 
 export default function StudyDetailPage() {

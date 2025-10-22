@@ -1,6 +1,5 @@
 import "./globals.css";
-import { ThemeProvider } from "@/contexts/ThemeContext";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { Providers } from "@/components/Providers";
 
 export const metadata = {
   title: "WithUp - 스터디 모임 플랫폼",
@@ -16,11 +15,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ko" suppressHydrationWarning>
       <body className="antialiased" suppressHydrationWarning>
-        <ThemeProvider>
-          <AuthProvider>
-            {children}
-          </AuthProvider>
-        </ThemeProvider>
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );

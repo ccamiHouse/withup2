@@ -1,14 +1,14 @@
 "use client";
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import StudyCard from "@/components/StudyCard";
-import VoiceButton from "@/components/VoiceButton";
-import AudioWaveform from "@/components/AudioWaveform";
+import Header from "@/components/templates/Header";
+import Footer from "@/components/templates/Footer";
+import StudyCard from "@/components/modules/StudyCard";
+import VoiceButton from "@/components/atoms/VoiceButton";
+import AudioWaveform from "@/components/atoms/AudioWaveform";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Home() {
   const { user, isLoggedIn } = useAuth();
