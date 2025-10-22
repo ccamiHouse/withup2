@@ -67,21 +67,6 @@ export function ThemeProvider({ children }) {
     }
   }, [theme, mounted]);
 
-  // 마운트되지 않은 상태에서는 light 테마로 렌더링
-  if (!mounted) {
-    return (
-      <ThemeContext.Provider
-        value={{
-          theme: "light",
-          toggleTheme: () => {},
-          setThemeMode: () => {},
-        }}
-      >
-        <div className="light">{children}</div>
-      </ThemeContext.Provider>
-    );
-  }
-
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme, setThemeMode }}>
       {children}

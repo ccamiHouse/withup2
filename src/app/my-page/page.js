@@ -245,9 +245,12 @@ export default function MyPage() {
                                 {job.pay}
                               </p>
                             </div>
-                            <button className="pill-button bg-primary-500 text-white hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500/50">
+                            <Link
+                              href={`/sidejob/${job.id}/apply`}
+                              className="pill-button bg-primary-500 text-white hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500/50"
+                            >
                               지원하기
-                            </button>
+                            </Link>
                           </div>
                         </div>
                       ))}
