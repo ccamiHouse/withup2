@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "@/components/templates/Header";
+import Footer from "@/components/templates/Footer";
 import { motion } from "framer-motion";
 import { initiateKakaoLogin, extractAuthCode, extractError, checkLoginStatus, handleKakaoCallback } from "@/utils/kakaoAuth";
 

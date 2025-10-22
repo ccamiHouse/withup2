@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "@/components/templates/Header";
+import Footer from "@/components/templates/Footer";
 import { motion } from "framer-motion";
 
 export default function PrivacyPage() {

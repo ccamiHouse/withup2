@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import StudyCard from "@/components/StudyCard";
+import Header from "@/components/templates/Header";
+import Footer from "@/components/templates/Footer";
+import StudyCard from "@/components/modules/StudyCard";
 import Link from "next/link";
 
 export default function MyPage() {

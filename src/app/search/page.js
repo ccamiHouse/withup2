@@ -2,9 +2,9 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import StudyCard from "@/components/StudyCard";
+import Header from "@/components/templates/Header";
+import Footer from "@/components/templates/Footer";
+import StudyCard from "@/components/modules/StudyCard";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
