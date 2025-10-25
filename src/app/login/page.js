@@ -4,7 +4,7 @@ import { Mail, MapPin } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { initiateKakaoLogin, extractAuthCode } from "@/lib/utils/kakaoAuth";
+import { initiateKakaoLogin, extractAuthCode } from "@/utils/kakaoAuth";
 
 export default function LoginPage() {
   const [isKakaoLoading, setIsKakaoLoading] = useState(false);
