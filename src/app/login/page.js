@@ -23,18 +23,12 @@ export default function LoginPage() {
           setIsKakaoLoading(true);
           setError('');
 
-          // api.js를 사용하여 백엔드 API 호출
-          const result = await api.get(`/api/auth/kakao?code=${code}`);
-
-          console.log('카카오 로그인 성공:', result);
-          
-          // 메인 페이지로 리다이렉트
-          window.location.href = '/';
+          // 카카오 API Route로 리다이렉트 (서버 사이드에서 처리)
+          window.location.href = `/api/auth/kakao?code=${code}`;
 
         } catch (error) {
           console.error('카카오 로그인 에러:', error);
           setError(error.message || '카카오 로그인 처리 중 오류가 발생했습니다.');
-        } finally {
           setIsKakaoLoading(false);
         }
       };

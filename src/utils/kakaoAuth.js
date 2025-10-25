@@ -145,7 +145,7 @@ export async function checkLoginStatus() {
     // axios를 사용한 API 호출
     const { api } = await import('./api');
     
-    const data = await api.get('/api/auth/status');
+    const data = await api.get(process.env.NEXT_PUBLIC_BACKEND_URL + '/api/auth/status');
     
     if (data.success && data.isLoggedIn) {
       return {
