@@ -1,4 +1,4 @@
-import PageLayout from "@/components/PageLayout";
+import PageLayout from "@/components/uncategorized/PageLayout";
 
 export const metadata = {
   title: "회사 소개 - WithUp",

@@ -1,4 +1,4 @@
-import PageLayout from "@/components/PageLayout";
+import PageLayout from "@/components/uncategorized/PageLayout";
 import Link from "next/link";
 import { Check, X } from "lucide-react";
 

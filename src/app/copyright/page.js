@@ -1,4 +1,4 @@
-import PageLayout from "@/components/PageLayout";
+import PageLayout from "@/components/uncategorized/PageLayout";
 
 export const metadata = {
   title: "지적재산권 - WithUp",

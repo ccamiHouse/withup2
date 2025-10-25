@@ -1,4 +1,4 @@
-import PageLayout from "@/components/PageLayout";
+import PageLayout from "@/components/uncategorized/PageLayout";
 import { CheckCircle, AlertCircle, Clock, TrendingUp } from "lucide-react";
 
 export const metadata = {

@@ -1,4 +1,4 @@
-import PageLayout from "@/components/PageLayout";
+import PageLayout from "@/components/uncategorized/PageLayout";
 
 export const metadata = {
   title: "개인정보 처리방침 - WithUp",

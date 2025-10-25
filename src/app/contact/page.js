@@ -1,4 +1,4 @@
-import PageLayout from "@/components/PageLayout";
+import PageLayout from "@/components/uncategorized/PageLayout";
 import { Mail, Phone, MapPin } from "lucide-react";
 
 export const metadata = {

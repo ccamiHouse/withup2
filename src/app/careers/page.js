@@ -1,4 +1,4 @@
-import PageLayout from "@/components/PageLayout";
+import PageLayout from "@/components/uncategorized/PageLayout";
 import { MapPin, Briefcase } from "lucide-react";
 
 export const metadata = {
