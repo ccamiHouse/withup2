@@ -12,9 +12,10 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
  */
 export function getKakaoLoginPageUrl() {
   const clientId = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
-  const redirectUri = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL;
+  const frontUrl = process.env.NEXT_PUBLIC_FRONT_URL || 'http://localhost:3000';
+  const redirectUri = `${frontUrl}/login`;
   
-  if (!clientId || !redirectUri) {
+  if (!clientId) {
     throw new Error('카카오 로그인 설정이 올바르지 않습니다. 환경변수를 확인해주세요.');
   }
 

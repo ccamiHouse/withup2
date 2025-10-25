@@ -33,7 +33,7 @@ export async function GET(request) {
         grant_type: 'authorization_code',
         client_id: process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY,
         client_secret: process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET || '',
-        redirect_uri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL,
+        redirect_uri: `${process.env.NEXT_PUBLIC_FRONT_URL || 'http://localhost:3000'}/login`,
         code: code,
       }),
     });
