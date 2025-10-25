@@ -1,16 +1,18 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Header from "@/components/templates/Header";
-import Hero from "@/components/modules/Hero";
-import Features from "@/components/modules/Features";
-import HowItWorks from "@/components/modules/HowItWorks";
-import Stats from "@/components/modules/Stats";
-import CTA from "@/components/modules/CTA";
 import Footer from "@/components/templates/Footer";
-import HomePage from "@/app/home/page";
+import GuestHome from "@/components/modules/GuestHome";
+import LoggedInHome from "@/components/modules/LoggedInHome";
 
 export default function Home() {
+  // TODO: Redux에서 로그인 상태 가져오기
+  // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  
+  // 임시: 로그인 상태 (나중에 Redux로 교체)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   useEffect(() => {
     const handleAnchorClick = (e) => {
       // 클릭한 요소가 앵커 링크인지 확인
@@ -44,16 +46,14 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className={`min-h-screen ${isLoggedIn ? 'bg-gray-50' : 'bg-white'}`}>
       <Header />
       
       {/* Spacer for fixed header */}
       <div className="h-16"></div>
 
-      <main>
-        <HomePage />
-        <CTA />
-      </main>
+      {isLoggedIn ? <LoggedInHome /> : <GuestHome />}
+      
       <Footer />
     </div>
   );
