@@ -5,7 +5,9 @@ import Link from "next/link";
 import Header from "@/components/templates/Header";
 import Footer from "@/components/templates/Footer";
 import { motion } from "framer-motion";
-import { initiateKakaoLogin, extractAuthCode, extractError, checkLoginStatus, handleKakaoCallback } from "@/utils/kakaoAuth";
+import { getKakaoLoginPageUrl, handleKakaoCallback } from "@/utils/kakaoAuth";
+import api from "@/utils/api";
+
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -17,65 +19,114 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [isKakaoLoading, setIsKakaoLoading] = useState(false);
 
-  // URL 파라미터 확인 (에러 메시지, 로그인 성공, 카카오 코드 등)
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const errorParam = urlParams.get('error');
-    const loginSuccess = urlParams.get('login');
-    const kakaoCode = urlParams.get('code'); // 카카오 로그인 콜백에서 받은 인증 코드
 
-    // 카카오 로그인 코드가 있는 경우 백엔드로 전송
-    if (kakaoCode) {
-      handleKakaoCode(kakaoCode);
-      return;
-    }
+  // window.location.href.match(/[?&]code=([^&]+)/);
 
-    if (errorParam) {
-      switch (errorParam) {
-        case 'no_code':
-          setError('카카오 로그인 인증 코드를 받지 못했습니다.');
-          break;
-        case 'login_failed':
-          setError('카카오 로그인에 실패했습니다. 다시 시도해주세요.');
-          break;
-        default:
-          setError('로그인 중 오류가 발생했습니다.');
-      }
-    }
+useEffect(() => {
+  const authorization_code_kako = window.location.href.match(/[?&]code=([^&]+)/)?.[1];
+  if (authorization_code_kako) {
+    console.info('카카오 인증 코드:', authorization_code_kako);
 
-    if (loginSuccess === 'success') {
-      // 로그인 성공 시 메인 페이지로 리다이렉트
-      window.location.href = '/';
-    }
-  }, []);
+    // 카카오 로그인 처리 (유틸 함수 사용)
+    const handleKakaoAuth = async (code) => {
+      try {
+        setIsKakaoLoading(true);
+        setError('');
 
-  // 카카오 로그인 코드 처리
-  const handleKakaoCode = async (code) => {
-    try {
-      setIsKakaoLoading(true);
-      setError('');
+        // axios를 사용한 API 호출 (uri와 path를 별도로 전달)
+        const result = await api.post(
+          {
+            uri: process.env.NEXT_PUBLIC_BACKEND_URL,
+            path: '/api-guest/auth/login-signin/kakao'
+          },
+          {
+            code: code
+          }
+        );
 
-      console.log('카카오 인증 코드 처리 시작:', code);
-
-      // 백엔드 API로 카카오 인증 코드 전송
-      const result = await handleKakaoCallback(code);
-
-      if (result.success) {
-        console.log('카카오 로그인 성공:', result.data);
-        alert('로그인이 성공적으로 완료되었습니다!');
+        console.log('카카오 로그인 성공:', result);
         
-        // 메인 페이지로 리다이렉트
-        window.location.href = '/?login=success';
-      } else {
-        setError(result.error || '카카오 로그인에 실패했습니다.');
+        // 로그인 성공 시 메인 페이지로 리다이렉트
+        window.location.href = '/';
+
+      } catch (error) {
+        console.error('카카오 로그인 에러:', error);
+        setError(error.message || '카카오 로그인 처리 중 오류가 발생했습니다.');
+      } finally {
+        setIsKakaoLoading(false);
       }
-    } catch (error) {
-      console.error('카카오 로그인 처리 실패:', error);
-      setError('카카오 로그인 처리 중 오류가 발생했습니다.');
-    } finally {
-      setIsKakaoLoading(false);
-    }
-  };
+    };
+
+    handleKakaoAuth(authorization_code_kako);
+  }
+}, []);
+
+  // URL 파라미터 확인 (에러 메시지, 로그인 성공, 카카오 코드 등)
+  // useEffect(() => {
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   const errorParam = urlParams.get('error');
+  //   const loginSuccess = urlParams.get('login');
+    
+  //   // 정규표현식으로 code 추출
+  //   const codeMatch = window.location.href.match(/[?&]code=([^&]+)/);
+  //   const kakaoCode = codeMatch ? codeMatch[1] : null;
+
+  //   // 카카오 로그인 코드가 있는 경우 백엔드로 전송
+  //   if (kakaoCode) {
+  //     handleKakaoCode(kakaoCode);
+  //     return;
+  //   }
+
+  //   if (errorParam) {
+  //     switch (errorParam) {
+  //       case 'no_code':
+  //         setError('카카오 로그인 인증 코드를 받지 못했습니다.');
+  //         break;
+  //       case 'login_failed':
+  //         setError('카카오 로그인에 실패했습니다. 다시 시도해주세요.');
+  //         break;
+  //       default:
+  //         setError('로그인 중 오류가 발생했습니다.');
+  //     }
+  //   }
+
+  //   if (loginSuccess === 'success') {
+  //     // 로그인 성공 시 메인 페이지로 리다이렉트
+  //     window.location.href = '/';
+  //   }
+  // }, []);
+
+  // // 카카오 로그인 코드 처리
+  // const handleKakaoCode = async (code) => {
+  //   try {
+  //     setIsKakaoLoading(true);
+  //     setError('');
+
+  //     console.log('카카오 인증 코드 처리 시작:', code);
+
+  //     // TODO: 백엔드 API로 카카오 인증 코드 전송
+  //     // const result = await handleKakaoCallback(code);
+
+  //     // 임시: 코드 확인 후 처리
+  //     console.log('카카오 인증 코드:', code);
+  //     alert('카카오 로그인 코드를 받았습니다: ' + code);
+      
+  //     // TODO: 실제 백엔드 연동 시 아래 코드 활성화
+  //     // if (result.success) {
+  //     //   console.log('카카오 로그인 성공:', result.data);
+  //     //   alert('로그인이 성공적으로 완료되었습니다!');
+  //     //   window.location.href = '/?login=success';
+  //     // } else {
+  //     //   setError(result.error || '카카오 로그인에 실패했습니다.');
+  //     // }
+      
+  //   } catch (error) {
+  //     console.error('카카오 로그인 처리 실패:', error);
+  //     setError('카카오 로그인 처리 중 오류가 발생했습니다.');
+  //   } finally {
+  //     setIsKakaoLoading(false);
+  //   }
+  // };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -103,9 +154,9 @@ export default function LoginPage() {
     try {
       setIsKakaoLoading(true);
       setError("");
+      window.location.href = getKakaoLoginPageUrl();
       
-      // 카카오 로그인 시작
-      initiateKakaoLogin();
+
     } catch (error) {
       console.error('카카오 로그인 에러:', error);
       setError('카카오 로그인 요청 중 오류가 발생했습니다.');

@@ -10,7 +10,7 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
  * 카카오 로그인 URL 생성
  * @returns {string} 카카오 인증 URL
  */
-export function getKakaoLoginUrl() {
+export function getKakaoLoginPageUrl() {
   const clientId = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
   const redirectUri = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL;
   
@@ -88,37 +88,25 @@ export async function handleKakaoCallback(code) {
   try {
     console.log('카카오 인증 코드 받음:', code);
 
-    // 백엔드 API로 카카오 인증 코드 전송
-    const response = await fetch(`${BACKEND_URL}/api-guest/auth/login-signin/kakao`, {
-      method: 'POST',
-      headers: {
-        'accept': '*/*',
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include', // 쿠키 포함
-      body: JSON.stringify({
-        code: code
-      }),
+    // axios를 사용한 API 호출
+    const { api } = await import('./api');
+    
+    const data = await api.post('/api-guest/auth/login-signin/kakao', {
+      code: code
     });
 
-    if (response.ok) {
-      const data = await response.json();
-      console.log('카카오 로그인 성공:', data);
-      
-      // 백엔드에서 HttpOnly 토큰 자동 설정됨
-      if (data.success && data.content) {
-        const { accessToken, refreshToken, tokenType, userId } = data.content;
-        console.log('로그인 성공, HttpOnly 토큰 자동 설정됨:', { userId, tokenType });
-      }
-      
-      return {
-        success: true,
-        data: data
-      };
-    } else {
-      const errorData = await response.json();
-      throw new Error(errorData.message || '카카오 로그인에 실패했습니다.');
+    console.log('카카오 로그인 성공:', data);
+    
+    // 백엔드에서 HttpOnly 토큰 자동 설정됨
+    if (data.success && data.content) {
+      const { accessToken, refreshToken, tokenType, userId } = data.content;
+      console.log('로그인 성공, HttpOnly 토큰 자동 설정됨:', { userId, tokenType });
     }
+    
+    return {
+      success: true,
+      data: data
+    };
   } catch (error) {
     console.error('카카오 로그인 콜백 처리 실패:', error);
     return {
