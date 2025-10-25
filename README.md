@@ -1,120 +1,91 @@
-# WithUp - 스터디 모임 플랫폼
+# WithUp - 지역 기반 스터디 매칭 플랫폼
 
-함께 성장하는 스터디 모임 플랫폼입니다.
+WithUp은 지역 기반 스터디 매칭 플랫폼으로, 학습 목표를 달성하고 성과 포트폴리오를 자동 생성하는 서비스입니다.
 
-## 기능
+## 🚀 기술 스택
 
-### MVP (1단계)
-
-- ✅ 스터디 개설 및 모집
-- ✅ 지역/공간 기반 매칭
-- ✅ 스터디 찾기 및 필터링
-- ✅ 운영 관리 기본 기능 (출석, 일정, 공지, 역할 분담)
-- ✅ 마이페이지 (참여/개설 스터디 관리)
-- ✅ 사이드잡 연결 기본 기능
-
-## 기술 스택
-
-- **Framework**: Next.js 15.0.2
+- **Framework**: Next.js 16.0.0 (App Router)
+- **UI Library**: React 19.2.0
+- **Styling**: Tailwind CSS v4
+- **Icons**: Lucide React, React Icons
 - **Language**: JavaScript
-- **Styling**: Tailwind CSS 3.4.17
-- **UI Library**: React 18.3.1
 
-## 시작하기
+## 📦 패키지 버전
 
-### 의존성 설치
+```json
+{
+  "next": "16.0.0",
+  "react": "19.2.0",
+  "react-dom": "19.2.0",
+  "tailwindcss": "^4",
+  "@tailwindcss/postcss": "^4"
+}
+```
+
+## 🛠️ 설치 및 실행
+
+### 1. 의존성 설치
 
 ```bash
 npm install
 ```
 
-### 개발 서버 실행
+### 2. 개발 서버 실행
 
 ```bash
 npm run dev
 ```
 
-브라우저에서 [http://localhost:3000](http://localhost:3000)을 열어 결과를 확인하세요.
+브라우저에서 [http://localhost:3000](http://localhost:3000)을 열어 확인하세요.
 
-### 빌드
-
-```bash
-npm run
-build
-```
-
-### 프로덕션 실행
+### 3. 프로덕션 빌드
 
 ```bash
+npm run build
 npm start
 ```
 
-## 프로젝트 구조
+## 📁 프로젝트 구조
 
 ```
-withup2/
-├── src/
-│   ├── app/
-│   │   ├── layout.js          # 루트 레이아웃
-│   │   ├── page.js             # 홈 페이지
-│   │   ├── globals.css         # 전역 스타일
-│   │   ├── studies/
-│   │   │   ├── page.js         # 스터디 목록
-│   │   │   ├── create/
-│   │   │   │   └── page.js     # 스터디 개설
-│   │   │   └── [id]/
-│   │   │       └── page.js     # 스터디 상세
-│   │   └── my-page/
-│   │       └── page.js         # 마이페이지
-│   └── components/
-│       ├── Header.js           # 헤더 컴포넌트
-│       ├── Footer.js           # 푸터 컴포넌트
-│       └── StudyCard.js        # 스터디 카드 컴포넌트
-├── doc/
-│   └── withup.prd              # 프로덕트 요구사항 문서
-├── package.json
-├── next.config.js
-├── tailwind.config.js
-└── README.md
+withup3/
+├── app/                    # Next.js App Router
+│   ├── layout.js          # Root layout
+│   ├── page.js            # Home page
+│   └── globals.css        # Global styles
+├── components/            # React components
+│   ├── Header.js
+│   ├── Hero.js
+│   ├── Features.js
+│   ├── HowItWorks.js
+│   ├── Stats.js
+│   ├── CTA.js
+│   └── Footer.js
+├── docs/                  # Documentation
+│   └── withup.prd         # Product Requirements Document
+├── tailwind.config.js     # Tailwind CSS configuration
+├── postcss.config.mjs     # PostCSS configuration
+└── package.json           # Dependencies
 ```
 
-## 주요 페이지
+## 🎨 주요 기능
 
-- `/` - 홈 페이지 (추천 스터디, 주요 기능 소개)
-- `/studies` - 스터디 찾기 (필터링 기능)
-- `/studies/create` - 스터디 개설
-- `/studies/[id]` - 스터디 상세 정보
-- `/my-page` - 마이페이지 (참여/개설 스터디, 사이드잡)
+- ✅ 지역 기반 스터디 매칭
+- ✅ 성과 포트폴리오 자동 생성
+- ✅ 안전한 회비 관리
+- ✅ 상호 평가 시스템
+- ✅ 출석/과제 인증
+- ✅ 성취 배지 시스템
+- ✅ 공간 대여 통합 결제
+- ✅ 참여율 관리
 
-## 개발 가이드
+## 🎯 핵심 가치 제안
 
-### 컴포넌트 생성
+- **접근성**: 지역 기반 매칭으로 참여 접근성 강화
+- **이력화**: 스터디 결과물을 성과 포트폴리오로 자동 생성
+- **신뢰성**: 상호 평가 기반 신뢰 시스템 및 안전한 회비 관리
+- **지속성**: 배지/포인트 기반 게이미피케이션으로 지속적 참여 유도
 
-공통 컴포넌트는 `src/components/` 디렉토리에 생성합니다.
+## 📄 라이센스
 
-### 페이지 생성
-
-페이지는 `src/app/` 디렉토리 구조에 따라 자동으로 라우팅됩니다.
-
-### 스타일링
-
-Tailwind CSS를 사용하여 스타일링합니다. `tailwind.config.js`에서 테마를 커스터마이징할 수 있습니다.
-
-## 향후 계획
-
-### 2단계
-
-- 자료 공유 (채팅/파일 업로드)
-- 활동 기록 시스템
-- 고도화된 추천 알고리즘
-- 사이드잡 연계 확대
-
-### 3단계
-
-- 포트폴리오 자동 생성
-- 기업 파트너십
-- 커뮤니티 강화
-
-## 라이선스
-
-MIT
+This project is private and confidential.

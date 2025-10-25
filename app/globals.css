@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+:root {
+  --primary: 221 83% 53%;
+  --secondary: 262 83% 58%;
+  --accent: 142 76% 36%;
+  --success: 142 76% 36%;
+  --warning: 38 92% 50%;
+  --error: 0 84% 60%;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Header height */
+}
+
+body {
+  background-color: white;
+  color: #111827;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
