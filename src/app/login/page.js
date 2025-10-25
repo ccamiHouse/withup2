@@ -24,7 +24,7 @@ export default function LoginPage() {
 
           // 백엔드 API로 인증 코드 전송
           const response = await fetch('/api/auth/kakao', {
-            method: 'POST',
+            method: 'GET',
             headers: {
               'Content-Type': 'application/json',
             },
