@@ -1,17 +1,10 @@
 import axios from 'axios';
 
-// 현재 프론트 URL 가져오기
-const getCurrentFrontUrl = () => {
-  if (typeof window !== 'undefined') {
-    return window.location.origin;
-  }
-  return process.env.NEXT_PUBLIC_FRONT_URL || 'http://localhost:3000';
-};
 
 // axios 인스턴스 생성 함수
 const createApiClient = (baseURL = null) => {
   return axios.create({
-    baseURL: baseURL || getCurrentFrontUrl(),
+    baseURL: baseURL || window.location.origin,
     headers: {
       'Content-Type': 'application/json',
       'accept': '*/*',

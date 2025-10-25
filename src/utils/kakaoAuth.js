@@ -142,21 +142,26 @@ export function extractError(url = window.location.href) {
  */
 export async function checkLoginStatus() {
   try {
-    // axios를 사용한 API 호출
-    const { api } = await import('./api');
-    
-    const data = await api.get(process.env.NEXT_PUBLIC_BACKEND_URL + '/api/auth/status');
-    
-    if (data.success && data.isLoggedIn) {
-      return {
-        isLoggedIn: true,
-        user: data.user,
-      };
-    } else {
-      return {
-        isLoggedIn: false,
-      };
+    // fetch를 사용하여 Next.js API Route 호출
+    const response = await fetch('/api/auth/status', {
+      method: 'GET',
+      credentials: 'include',
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      
+      if (data.success && data.isLoggedIn) {
+        return {
+          isLoggedIn: true,
+          user: data.user,
+        };
+      }
     }
+    
+    return {
+      isLoggedIn: false,
+    };
   } catch (error) {
     console.error('로그인 상태 확인 실패:', error);
     
