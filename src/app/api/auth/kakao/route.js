@@ -1,24 +1,25 @@
+import { NextResponse } from 'next/server';
+
 /**
  * 카카오 로그인 콜백 처리 API
- * Next.js API Routes 사용
+ * Next.js App Router 사용
  */
-
-export default async function handler(req, res) {
-  if (req.method !== 'GET') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  const { code, error } = req.query;
+export async function GET(request) {
+  const { searchParams } = new URL(request.url);
+  const code = searchParams.get('code');
+  const error = searchParams.get('error');
 
   // 에러 처리
   if (error) {
     console.error('카카오 로그인 에러:', error);
-    return res.redirect(`${process.env.NEXT_PUBLIC_FRONT_URL}/login?error=${error}`);
+    const frontUrl = process.env.NEXT_PUBLIC_FRONT_URL || 'http://localhost:3000';
+    return NextResponse.redirect(`${frontUrl}/login?error=${error}`);
   }
 
   // 인증 코드가 없는 경우
   if (!code) {
-    return res.redirect(`${process.env.NEXT_PUBLIC_FRONT_URL}/login?error=no_code`);
+    const frontUrl = process.env.NEXT_PUBLIC_FRONT_URL || 'http://localhost:3000';
+    return NextResponse.redirect(`${frontUrl}/login?error=no_code`);
   }
 
   try {
@@ -68,23 +69,29 @@ export default async function handler(req, res) {
       provider: 'kakao',
     };
 
-    // 4. 세션에 사용자 정보 저장 (간단한 구현)
-    // 실제로는 JWT 토큰이나 데이터베이스에 저장해야 함
+    // 4. 세션에 사용자 정보 저장
     const sessionData = {
       user: user,
       loginTime: new Date().toISOString(),
     };
 
     // 5. 쿠키에 세션 정보 저장
-    res.setHeader('Set-Cookie', [
-      `session=${JSON.stringify(sessionData)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${7 * 24 * 60 * 60}`, // 7일
-    ]);
+    const response = NextResponse.redirect(
+      `${process.env.NEXT_PUBLIC_FRONT_URL || 'http://localhost:3000'}?login=success`
+    );
 
-    // 6. 프론트엔드로 리다이렉트
-    res.redirect(`${process.env.NEXT_PUBLIC_FRONT_URL}?login=success`);
+    response.cookies.set('session', JSON.stringify(sessionData), {
+      httpOnly: true,
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60, // 7일
+      path: '/',
+    });
+
+    return response;
 
   } catch (error) {
     console.error('카카오 로그인 처리 실패:', error);
-    res.redirect(`${process.env.NEXT_PUBLIC_FRONT_URL}/login?error=login_failed`);
+    const frontUrl = process.env.NEXT_PUBLIC_FRONT_URL || 'http://localhost:3000';
+    return NextResponse.redirect(`${frontUrl}/login?error=login_failed`);
   }
 }

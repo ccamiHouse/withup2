@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { initiateKakaoLogin, extractAuthCode } from "@/utils/kakaoAuth";
+import { api } from "@/utils/api";
 
 export default function LoginPage() {
   const [isKakaoLoading, setIsKakaoLoading] = useState(false);
@@ -22,21 +23,8 @@ export default function LoginPage() {
           setIsKakaoLoading(true);
           setError('');
 
-          // 백엔드 API로 인증 코드 전송
-          const response = await fetch('/api/auth/kakao', {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ code }),
-            credentials: 'include',
-          });
-
-          const result = await response.json();
-
-          if (!response.ok) {
-            throw new Error(result.error || '로그인 실패');
-          }
+          // api.js를 사용하여 백엔드 API 호출
+          const result = await api.get(`/api/auth/kakao?code=${code}`);
 
           console.log('카카오 로그인 성공:', result);
           

@@ -3,7 +3,7 @@ import axios from 'axios';
 // axios 인스턴스 생성 함수
 const createApiClient = (baseURL = null) => {
   return axios.create({
-    baseURL: baseURL || 'http://localhost:8082',
+    baseURL: baseURL || 'http://localhost:3000',
     headers: {
       'Content-Type': 'application/json',
       'accept': '*/*',
