@@ -23,6 +23,8 @@ export async function GET(request) {
   }
 
   try {
+    const redirectUri = `${process.env.NEXT_PUBLIC_FRONT_URL || 'http://localhost:3000'}/login`;
+    
     // 1. 카카오 액세스 토큰 발급
     const tokenResponse = await fetch('https://kauth.kakao.com/oauth/token', {
       method: 'POST',
@@ -33,7 +35,7 @@ export async function GET(request) {
         grant_type: 'authorization_code',
         client_id: process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY,
         client_secret: process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET || '',
-        redirect_uri: `${process.env.NEXT_PUBLIC_FRONT_URL || 'http://localhost:3000'}/login`,
+        redirect_uri: redirectUri,
         code: code,
       }),
     });
@@ -76,9 +78,8 @@ export async function GET(request) {
     };
 
     // 5. 쿠키에 세션 정보 저장
-    const response = NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_FRONT_URL || 'http://localhost:3000'}?login=success`
-    );
+    const frontUrl = process.env.NEXT_PUBLIC_FRONT_URL || 'http://localhost:3000';
+    const response = NextResponse.redirect(`${frontUrl}?login=success`);
 
     response.cookies.set('session', JSON.stringify(sessionData), {
       httpOnly: true,

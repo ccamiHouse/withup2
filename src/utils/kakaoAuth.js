@@ -12,10 +12,9 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
  */
 export function getKakaoLoginPageUrl() {
   const clientId = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
-  const frontUrl = process.env.NEXT_PUBLIC_FRONT_URL || 'http://localhost:3000';
-  const redirectUri = `${frontUrl}/login`;
+  const redirectUri = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL;
   
-  if (!clientId) {
+  if (!clientId || !redirectUri) {
     throw new Error('카카오 로그인 설정이 올바르지 않습니다. 환경변수를 확인해주세요.');
   }
 
@@ -143,26 +142,21 @@ export function extractError(url = window.location.href) {
  */
 export async function checkLoginStatus() {
   try {
-    // fetch를 사용하여 Next.js API Route 호출
-    const response = await fetch('/api/auth/status', {
-      method: 'GET',
-      credentials: 'include',
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      
-      if (data.success && data.isLoggedIn) {
-        return {
-          isLoggedIn: true,
-          user: data.user,
-        };
-      }
-    }
+    // axios를 사용한 API 호출
+    const { api } = await import('./api');
     
-    return {
-      isLoggedIn: false,
-    };
+    const data = await api.get('/api/auth/status');
+    
+    if (data.success && data.isLoggedIn) {
+      return {
+        isLoggedIn: true,
+        user: data.user,
+      };
+    } else {
+      return {
+        isLoggedIn: false,
+      };
+    }
   } catch (error) {
     console.error('로그인 상태 확인 실패:', error);
     

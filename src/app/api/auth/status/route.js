@@ -15,12 +15,14 @@ export async function GET(request) {
         user: null,
       });
     }
-    
-    return Response.json({
-      success: true,
-      isLoggedIn: true,
-      user: null,
-    });
+    else
+    {
+      return Response.json({
+        success: true,
+        isLoggedIn: true,
+        user: null,
+      });
+    }
 
   } catch (error) {
     console.error('사용자 정보 확인 실패:', error);
