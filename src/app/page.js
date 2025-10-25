@@ -1,17 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Header from "@/components/templates/Header";
 import Footer from "@/components/templates/Footer";
 import GuestHome from "@/components/modules/GuestHome";
 import LoggedInHome from "@/components/modules/LoggedInHome";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Home() {
-  // TODO: Redux에서 로그인 상태 가져오기
-  // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  
-  // 임시: 로그인 상태 (나중에 Redux로 교체)
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, isLoading } = useAuth();
 
   useEffect(() => {
     const handleAnchorClick = (e) => {
@@ -44,6 +41,11 @@ export default function Home() {
       document.removeEventListener('click', handleAnchorClick);
     };
   }, []);
+
+  // 로딩 중일 때는 표시하지 않음
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <div className={`min-h-screen ${isLoggedIn ? 'bg-gray-50' : 'bg-white'}`}>

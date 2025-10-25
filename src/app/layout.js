@@ -1,5 +1,6 @@
 import "./globals.css";
 import ScrollToTop from "@/components/uncategorized/ScrollToTop";
+import { Providers } from "./providers";
 
 export const metadata = {
   title: "WithUp - 지역 기반 스터디 매칭 플랫폼",
@@ -10,8 +11,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ko" suppressHydrationWarning>
       <body className="antialiased">
-        {children}
-        <ScrollToTop />
+        <Providers>
+          {children}
+          <ScrollToTop />
+        </Providers>
       </body>
     </html>
   );
