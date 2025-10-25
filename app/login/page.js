@@ -3,8 +3,65 @@
 import { Mail, MapPin } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useState, useEffect } from "react";
+import { initiateKakaoLogin, extractAuthCode } from "@/lib/utils/kakaoAuth";
 
 export default function LoginPage() {
+  const [isKakaoLoading, setIsKakaoLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // 카카오 로그인 콜백 처리
+  useEffect(() => {
+    const authorization_code = extractAuthCode();
+    
+    if (authorization_code) {
+      console.info('카카오 인증 코드:', authorization_code);
+
+      const handleKakaoAuth = async (code) => {
+        try {
+          setIsKakaoLoading(true);
+          setError('');
+
+          // 백엔드 API로 인증 코드 전송
+          const response = await fetch('/api/auth/kakao', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ code }),
+            credentials: 'include',
+          });
+
+          const result = await response.json();
+
+          if (!response.ok) {
+            throw new Error(result.error || '로그인 실패');
+          }
+
+          console.log('카카오 로그인 성공:', result);
+          
+          // 메인 페이지로 리다이렉트
+          window.location.href = '/';
+
+        } catch (error) {
+          console.error('카카오 로그인 에러:', error);
+          setError(error.message || '카카오 로그인 처리 중 오류가 발생했습니다.');
+        } finally {
+          setIsKakaoLoading(false);
+        }
+      };
+
+      handleKakaoAuth(authorization_code);
+    }
+  }, []);
+
+  const handleKakaoLogin = () => {
+    try {
+      initiateKakaoLogin();
+    } catch (error) {
+      setError('카카오 로그인을 시작할 수 없습니다.');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
@@ -30,9 +87,23 @@ export default function LoginPage() {
             </div>
 
 
+            {/* Error Message */}
+            {error && (
+              <div className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-600">
+                {error}
+              </div>
+            )}
+
             {/* Social Login */}
             <div className="space-y-3">
-              <button className="w-full flex items-center justify-center gap-3 rounded-lg px-6 py-3 text-sm font-medium text-gray-900 transition-colors" style={{backgroundColor: '#FEE500'}} onMouseEnter={(e) => e.target.style.backgroundColor = '#FDD835'} onMouseLeave={(e) => e.target.style.backgroundColor = '#FEE500'}>
+              <button 
+                onClick={handleKakaoLogin}
+                disabled={isKakaoLoading}
+                className="w-full flex items-center justify-center gap-3 rounded-lg px-6 py-3 text-sm font-medium text-gray-900 transition-colors disabled:opacity-50" 
+                style={{backgroundColor: '#FEE500'}} 
+                onMouseEnter={(e) => !isKakaoLoading && (e.target.style.backgroundColor = '#FDD835')} 
+                onMouseLeave={(e) => !isKakaoLoading && (e.target.style.backgroundColor = '#FEE500')}
+              >
                 <Image 
                   src="/cacaologo.svg" 
                   alt="카카오톡" 
@@ -40,7 +111,7 @@ export default function LoginPage() {
                   height={16}
                   className="h-4 w-4"
                 />
-                카카오톡으로 계속하기
+                {isKakaoLoading ? '로그인 중...' : '카카오톡으로 계속하기'}
               </button>
               <button className="w-full flex items-center justify-center gap-3 rounded-lg border border-gray-300 bg-white px-6 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
                 <svg className="h-5 w-5" viewBox="0 0 24 24">
