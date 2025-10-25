@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 // Dynamic import for map to avoid SSR issues
-const MapComponent = dynamic(() => import("@/components/MapComponent"), {
+const MapComponent = dynamic(() => import("@/components/uncategorized/MapComponent"), {
   ssr: false,
   loading: () => (
     <div className="h-64 bg-gray-100 rounded-lg flex items-center justify-center">

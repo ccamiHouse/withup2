@@ -6,6 +6,7 @@ import Footer from "@/components/templates/Footer";
 import GuestHome from "@/components/modules/GuestHome";
 import LoggedInHome from "@/components/modules/LoggedInHome";
 import { useAuth } from "@/hooks/useAuth";
+import HomePage from "@/app/home/page";
 
 export default function Home() {
   const { isLoggedIn, isLoading } = useAuth();
@@ -50,12 +51,7 @@ export default function Home() {
   return (
     <div className={`min-h-screen ${isLoggedIn ? 'bg-gray-50' : 'bg-white'}`}>
       <Header />
-      
-      {/* Spacer for fixed header */}
-      <div className="h-16"></div>
-
-      {isLoggedIn ? <LoggedInHome /> : <GuestHome />}
-      
+      <HomePage />
       <Footer />
     </div>
   );
