@@ -12,9 +12,7 @@ export default function Footer() {
     ],
     company: [
       { name: "회사 소개", href: "/about" },
-      { name: "블로그", href: "/blog" },
-      { name: "채용", href: "/careers" },
-      { name: "연락처", href: "/contact" }
+      { name: "문의하기", href: "/contact" }
     ],
     legal: [
       { name: "이용 약관", href: "/terms" },
@@ -24,9 +22,7 @@ export default function Footer() {
     ],
     resources: [
       { name: "고객 센터", href: "/support" },
-      { name: "도움말 센터", href: "/help" },
-      { name: "API 문서", href: "/api" },
-      { name: "상태", href: "/status" }
+      { name: "도움말 센터", href: "/help" }
     ]
   };
 

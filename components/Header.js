@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X, MapPin, Award, Users, Shield } from "lucide-react";
+import { Menu, X, MapPin, Award, Users, Shield, User } from "lucide-react";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -44,8 +44,9 @@ export default function Header() {
           <div className="mx-2 h-6 w-px bg-gray-300"></div>
           <Link
             href="/login"
-            className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:bg-gray-100"
+            className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:bg-gray-100"
           >
+            <User className="h-4 w-4" />
             로그인
           </Link>
           <Link href="/signup" className="rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-2 text-sm font-semibold text-white shadow-md transition-all hover:shadow-lg hover:scale-105">
@@ -87,7 +88,8 @@ export default function Header() {
               성과
             </a>
             <div className="my-2 border-t border-gray-200"></div>
-            <Link href="/login" className="rounded-lg px-4 py-3 font-medium text-gray-700 hover:bg-gray-100 transition-colors">
+            <Link href="/login" className="flex items-center gap-2 rounded-lg px-4 py-3 font-medium text-gray-700 hover:bg-gray-100 transition-colors">
+              <User className="h-4 w-4" />
               로그인
             </Link>
             <Link href="/signup" className="rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-3 text-center font-semibold text-white shadow-md">

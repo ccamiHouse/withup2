@@ -1,0 +1,9 @@
+{
+  "/cookies/page": "app/cookies/page.js",
+  "/copyright/page": "app/copyright/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/home/page": "app/home/page.js",
+  "/page": "app/page.js",
+  "/study/page": "app/study/page.js",
+  "/study/settings/page": "app/study/settings/page.js"
+}

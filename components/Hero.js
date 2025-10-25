@@ -22,7 +22,7 @@ export default function Hero() {
             </h1>
             
             <p className="mb-8 text-xl text-gray-600">
-              지역 기반 스터디 매칭으로 학습 목표를 달성하고, 
+              지역 기반 스터디 매칭으로 학습 목표를 달성하고,<br />
               성과 포트폴리오와 배지를 자동 생성하세요.
             </p>
             

@@ -63,30 +63,32 @@ export default function HowItWorksPage() {
       title="이용 방법" 
       description="4단계로 시작하는 WithUp 여정을 시작하세요"
     >
-      <div className="space-y-12">
+      <div className="space-y-8">
         {steps.map((step) => {
           const Icon = step.icon;
           return (
-            <div key={step.number} className="flex gap-6">
-              <div className="flex-shrink-0">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-600 text-white text-2xl font-bold">
-                  {step.number}
+            <div key={step.number} className="bg-white border border-gray-200 rounded-xl p-8">
+              <div className="flex gap-6">
+                <div className="flex-shrink-0">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-600 text-white text-2xl font-bold">
+                    {step.number}
+                  </div>
                 </div>
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-3">
-                  <Icon className="h-6 w-6 text-blue-600" />
-                  <h3 className="text-2xl font-bold text-gray-900">{step.title}</h3>
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-3">
+                    <Icon className="h-6 w-6 text-blue-600" />
+                    <h3 className="text-2xl font-bold text-gray-900">{step.title}</h3>
+                  </div>
+                  <p className="text-lg text-gray-600 mb-4">{step.description}</p>
+                  <ul className="grid md:grid-cols-2 gap-2">
+                    {step.details.map((detail, idx) => (
+                      <li key={idx} className="flex items-center gap-2 text-gray-700">
+                        <span className="text-blue-600">•</span>
+                        {detail}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <p className="text-lg text-gray-600 mb-4">{step.description}</p>
-                <ul className="grid md:grid-cols-2 gap-2">
-                  {step.details.map((detail, idx) => (
-                    <li key={idx} className="flex items-center gap-2 text-gray-700">
-                      <span className="text-blue-600">•</span>
-                      {detail}
-                    </li>
-                  ))}
-                </ul>
               </div>
             </div>
           );
