@@ -8,9 +8,8 @@ import HowItWorks from "@/components/modules/HowItWorks";
 import Stats from "@/components/modules/Stats";
 import CTA from "@/components/modules/CTA";
 import Footer from "@/components/templates/Footer";
-import HomePage from "@/app/home/page";
 
-export default function Home() {
+export default function Intro() {
   useEffect(() => {
     const handleAnchorClick = (e) => {
       // 클릭한 요소가 앵커 링크인지 확인
@@ -51,7 +50,18 @@ export default function Home() {
       <div className="h-16"></div>
 
       <main>
-        <HomePage />
+        <section id="home">
+          <Hero />
+        </section>
+        <section id="features">
+          <Features />
+        </section>
+        <section id="how-it-works">
+          <HowItWorks />
+        </section>
+        <section id="stats">
+          <Stats />
+        </section>
         <CTA />
       </main>
       <Footer />

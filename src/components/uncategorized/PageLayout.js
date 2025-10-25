@@ -1,5 +1,5 @@
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "@/components/templates/Header";
+import Footer from "@/components/templates/Footer";
 
 export default function PageLayout({ children, title, description }) {
   return (

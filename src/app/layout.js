@@ -1,5 +1,5 @@
 import "./globals.css";
-import ScrollToTop from "@/components/ScrollToTop";
+import ScrollToTop from "@/components/uncategorized/ScrollToTop";
 
 export const metadata = {
   title: "WithUp - 지역 기반 스터디 매칭 플랫폼",

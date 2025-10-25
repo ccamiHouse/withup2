@@ -29,16 +29,16 @@ export default function Header() {
           <Link href="/home" className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:bg-blue-50 hover:text-blue-600">
             홈
           </Link>
-          <Link href="/" className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:bg-blue-50 hover:text-blue-600">
+          <Link href="/intro" className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:bg-blue-50 hover:text-blue-600">
             소개
           </Link>
-          <a href="#features" className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:bg-blue-50 hover:text-blue-600">
+          <a href="/intro#features" className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:bg-blue-50 hover:text-blue-600">
             기능
           </a>
-          <a href="#how-it-works" className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:bg-blue-50 hover:text-blue-600">
+          <a href="/intro#how-it-works" className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:bg-blue-50 hover:text-blue-600">
             이용 방법
           </a>
-          <a href="#stats" className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:bg-blue-50 hover:text-blue-600">
+          <a href="/intro#stats" className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:bg-blue-50 hover:text-blue-600">
             성과
           </a>
           <div className="mx-2 h-6 w-px bg-gray-300"></div>
