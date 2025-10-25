@@ -1,24 +1,13 @@
 // store/authSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import api from '@/utils/api';
 
 // 비동기 액션 - 로그아웃 API 호출
 export const logoutAsync = createAsyncThunk(
   'auth/logoutAsync',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api-logined/auth/logout`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include', // 쿠키 포함
-      });
-
-      if (!response.ok) {
-        throw new Error('로그아웃 실패');
-      }
-
-      const data = await response.json();
+      const data = await api.post('/api-logined/auth/logout');
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

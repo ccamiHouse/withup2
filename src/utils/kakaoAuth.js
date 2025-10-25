@@ -142,27 +142,17 @@ export function extractError(url = window.location.href) {
  */
 export async function checkLoginStatus() {
   try {
-    // 로컬 API로 로그인 상태 확인 (HttpOnly 쿠키 기반)
-    const response = await fetch('/api/auth/me', {
-      method: 'GET',
-      credentials: 'include', // HttpOnly 쿠키 포함
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      
-      if (data.success && data.isLoggedIn) {
-        return {
-          isLoggedIn: true,
-          user: data.user,
-        };
-      } else {
-        return {
-          isLoggedIn: false,
-        };
-      }
+    // axios를 사용한 API 호출
+    const { api } = await import('./api');
+    
+    const data = await api.get('/api/auth/me');
+    
+    if (data.success && data.isLoggedIn) {
+      return {
+        isLoggedIn: true,
+        user: data.user,
+      };
     } else {
-      // API 호출 실패
       return {
         isLoggedIn: false,
       };
@@ -182,22 +172,12 @@ export async function checkLoginStatus() {
  */
 export async function logout() {
   try {
-    // 백엔드 로그아웃 API 호출 (HttpOnly 토큰 정리)
-    const response = await fetch(`${BACKEND_URL}/api-logined/auth/logout`, {
-      method: 'POST',
-      headers: {
-        'accept': '*/*',
-      },
-      credentials: 'include', // HttpOnly 쿠키 포함
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log('로그아웃 성공:', data.content?.message);
-    } else {
-      console.warn('백엔드 로그아웃 실패');
-    }
-
+    // axios를 사용한 API 호출
+    const { api } = await import('./api');
+    
+    const data = await api.post('/api-logined/auth/logout');
+    console.log('로그아웃 성공:', data?.content?.message);
+    
     // 로그인 페이지로 리다이렉트
     window.location.href = '/login';
     return true;

@@ -156,27 +156,21 @@ export default function Header() {
                         마이페이지
                       </Link>
                       <button
-                        onClick={() => {
-                          fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api-logined/auth/logout`, {
-                            method: 'POST',
-                            credentials: 'include',
-                            headers: {
-                              'Content-Type': 'application/json'
-                            }
-                          })
-                          .then(() => {
+                        onClick={async () => {
+                          try {
+                            // axios를 사용한 로그아웃 API 호출
+                            const { api } = await import('@/utils/api');
+                            await api.post('/api-logined/auth/logout');
+                            
                             logout();
                             setIsUserMenuOpen(false);
                             window.location.reload();
-                          })
-                          .catch(error => {
+                          } catch (error) {
                             console.error('로그아웃 실패:', error);
                             // 에러가 발생해도 로컬 상태는 로그아웃 처리
                             logout();
                             setIsUserMenuOpen(false);
-                          });
-                          // logout();
-                          // setIsUserMenuOpen(false);
+                          }
                         }}
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-tertiary"
                       >
