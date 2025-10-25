@@ -84,24 +84,32 @@ export async function checkLoginStatus() {
 
 /**
  * 로그아웃
+ * 백엔드 로그아웃 API 호출 및 쿠키 삭제
  * @returns {Promise<boolean>} 성공 여부
  */
 export async function logout() {
   try {
-    const response = await fetch('/api/logout', {
+    // Next.js API Route로 로그아웃 요청
+    const response = await fetch('/api/auth/logout', {
       method: 'POST',
       credentials: 'include',
     });
+
+    if (!response.ok) {
+      throw new Error('로그아웃 요청 실패');
+    }
+
+    const data = await response.json();
+    console.log('로그아웃 성공:', data?.message);
     
-    console.log('로그아웃 성공');
-    
-    // 로그인 페이지로 리다이렉트
-    window.location.href = '/login';
+    // 메인 페이지로 리다이렉트 (홈으로 이동)
+    window.location.href = '/';
     return true;
   } catch (error) {
     console.error('로그아웃 에러:', error);
     
-    window.location.href = '/login';
+    // 에러가 발생해도 메인 페이지로 리다이렉트 (보안을 위해 로그아웃 처리)
+    window.location.href = '/';
     return false;
   }
 }
